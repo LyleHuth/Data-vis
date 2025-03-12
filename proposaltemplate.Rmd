@@ -1,10 +1,9 @@
 ---
-title: "Give your project a title"
-author: "Team and team member"
-date: "2024-02-29"
+title: "NFL Player Longevity Trends and Insights"
+author: "Lyle Huth and Callum Deveaux"
+date: "2025-03-12"
 output: html_document
 ---
-
 
 <!-- Submission and Evaluation
 
@@ -62,7 +61,9 @@ As you work on this proposal, write your responses under the corresponding headi
 
 ## Questions to be investigated
 
-Identify a 2-3 questions you'd like to investigate with your data visualizations. Provide enough background that the questions make sense to your reader.
+1. How does the position (running back, wide receiver, quarter back, defensive player, punter) of an NFL player influence their average career length and what factors may induce a shorter career?
+
+2. How does the height and weight of a player at a given position affect their injury sensativity and comparatively, their willingness to take hits?
 
 ## Data to be used
 
