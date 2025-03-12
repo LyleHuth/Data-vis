@@ -40,23 +40,22 @@ You have a clear plan for the work of each team mate. You need to think more car
 
 You provided a reference so I know where your data came from. You did not provide reference for your data; what was its source? There was important technical information in your proposal which did not have a source. Please provide it in your report.
 
-
 -->
-
-
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 install.packages("ggfortify")
-install.packages("janitor")
 library(tidyverse)
 library(here)
 library(ggfortify)
 library(broom)
 library(ggrepel)
 library(kableExtra)
-library(janitor)
+library(ggplot2)
+library(ggtext)
+library(kableExtra)
+library(dplyr)
+library(knitr)
 ```
 
 As you work on this proposal, write your responses under the corresponding heading. **Delete the instructions (including this paragraph) before submitting your proposal.**
@@ -98,13 +97,10 @@ Look at the structure of the data. Explain the key variables that you plan to vi
 Plan to use a PCA, to help reduce the complexity of the data and indentify paterns of the player performance over time. A regression model will help look at performance, injuries and age and how they influence player longevity. A cluster model will help group the players into different cluster based on their performance statistics and their longevity.
 
 ## Team planning
-Indicate briefly how you plan to divide up the work between teammates. This should  be a few short sentences, for example: X will work on the scatter plots, Y will work on the PCA or MDS. X will plan and draft the oral presenation. Y will plan and draft the written report. Both X and Y will give feedback on the teammate's work and provide constructive suggestions.
-
-Tell me if you are both going to analyze the same dataset or if you plan to use a different dataset or subset of the dataset for each team member.
+Both members working together in person on the same datatset, collaborting on each part of the project, no one individual is completing a section on their own.
 
 ## Challenges anticipated
-
-If you are looking for help with some aspect of your project or want feedback on a specific topic, ask for it here.
+No help needed.
 
 ## References
 
