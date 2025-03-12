@@ -50,10 +50,12 @@ You provided a reference so I know where your data came from. You did not provid
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(here)
-# add any other packages you need here
-# if you need a package installed from github include as a comment the 
-# instructions to install the package, e.g.,
-# devtools::install_github("wilkelab/ggtext")
+library(ggfortify)
+library(broom)
+library(ggrepel)
+library(kableExtra)
+library(janitor)
+
 ```
 
 As you work on this proposal, write your responses under the corresponding heading. **Delete the instructions (including this paragraph) before submitting your proposal.**
