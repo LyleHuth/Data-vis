@@ -95,11 +95,9 @@ Look at the structure of the data. Explain the key variables that you plan to vi
 ```
 
 ## Ideas for visualization
-
-Your project will require you to create a wide range of visualizations, revise them, and select the most informative for your stated goals. As well I will ask you to use a range of techniques you learned in the course (scatter plots, histograms, smoothing, regression, PCA, MDS, clustering, maps.) For this section, simply describe 2-3 visualizations you plan to create which you think will be helpful to explore the data and answer your questions. 
+Plan to use a PCA, to help reduce the complexity of the data and indentify paterns of the player performance over time. A regression model will help look at performance, injuries and age and how they influence player longevity. A cluster model will help group the players into different cluster based on their performance statistics and their longevity.
 
 ## Team planning
-
 Indicate briefly how you plan to divide up the work between teammates. This should  be a few short sentences, for example: X will work on the scatter plots, Y will work on the PCA or MDS. X will plan and draft the oral presenation. Y will plan and draft the written report. Both X and Y will give feedback on the teammate's work and provide constructive suggestions.
 
 Tell me if you are both going to analyze the same dataset or if you plan to use a different dataset or subset of the dataset for each team member.
