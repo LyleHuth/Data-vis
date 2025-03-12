@@ -1,0 +1,113 @@
+---
+title: "Give your project a title"
+author: "Team and team member"
+date: "2024-02-29"
+output: html_document
+---
+
+
+<!-- Submission and Evaluation
+
+
+Load this file in Rstudio and provide as much details as you can on your plan
+
+When finished, submit your proposal in pdf and Rmd format to BS (Term project proposal)
+
+Component	                    Score	Maximum
+Questions	                    NA	    2
+Data provided and read into R	NA	    1
+Data description	            NA    	3
+Visualization ideas          	NA    	3
+References                   	NA    	1
+Total	
+10
+
+
+Feedback
+
+
+Think of the following sentences as a rubric that distinguishes between excellent, good, and insufficient proposals.
+
+Your questions were easy to understand and of appropriate complexity. easy to understand but probably too ambitious for this project. easy to understand but too simple; try to think a bit more deeply about the data.
+
+You provide your data in the data folder and showed how it could be read with R. provided your data in the data folder but did not show how it could be read with R. did not provide your data in the data folder.
+
+You described the source, observations and variables in your data well enough so that I could make a connection between your data and your questions. You should provide more information about the source, observations, and variables in your data in your project report.
+
+You described appropriate visualizations for your data and questions. Your plans for visualizations were not detailed enough for me to see the connection to your data or questions. You should think more creatively and deeply about ways to visualize your data as you work on your project.
+
+You have a clear plan for the work of each team mate. You need to think more carefully about how you will divide the work of the project across your team.
+
+You provided a reference so I know where your data came from. You did not provide reference for your data; what was its source? There was important technical information in your proposal which did not have a source. Please provide it in your report.
+
+
+-->
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+# add any other packages you need here
+# if you need a package installed from github include as a comment the 
+# instructions to install the package, e.g.,
+# devtools::install_github("wilkelab/ggtext")
+```
+
+As you work on this proposal, write your responses under the corresponding heading. **Delete the instructions (including this paragraph) before submitting your proposal.**
+
+## Questions to be investigated
+
+Identify a 2-3 questions you'd like to investigate with your data visualizations. Provide enough background that the questions make sense to your reader.
+
+## Data to be used
+
+This is a key part of your proposal! 
+
+Describe the data you plan to use including
+
+* a general description of the dataset,
+* the variables and type (categorical with a description of the levels, quantitative with units),
+* the number of observations,
+*  metadata that are relevant including who collected the data, when they were collected, how they were collected (a survey, random sample, exhaustive sample, experiment, etc.)
+
+Include a copy of the data in one of three ways:
+1. place your data file in your github repository and provide the link
+2. provide a download link to your dataset (not necessarily on github)
+3. or upload your dataset to BS with your proposal (preferred solution)
+
+[In any case, I need to be able to access and use YOUR dataset.]
+
+Read the data into R here. Present one or several summary tables or the output of `skimr::skim()` on your data to supplement the descriptive (in plain english not code) information you've provided.
+
+No need to run any model here!
+
+Look at the structure of the data. Explain the key variables that you plan to visualize/analyze (if your dataset has many, e.g. > 30 columns, you dont need to use all the columns).
+
+```{r}
+# my_data <- read_csv(...)
+# Your data does not need to be in csv format.
+```
+
+## Ideas for visualization
+
+Your project will require you to create a wide range of visualizations, revise them, and select the most informative for your stated goals. As well I will ask you to use a range of techniques you learned in the course (scatter plots, histograms, smoothing, regression, PCA, MDS, clustering, maps.) For this section, simply describe 2-3 visualizations you plan to create which you think will be helpful to explore the data and answer your questions. 
+
+## Team planning
+
+Indicate briefly how you plan to divide up the work between teammates. This should  be a few short sentences, for example: X will work on the scatter plots, Y will work on the PCA or MDS. X will plan and draft the oral presenation. Y will plan and draft the written report. Both X and Y will give feedback on the teammate's work and provide constructive suggestions.
+
+Tell me if you are both going to analyze the same dataset or if you plan to use a different dataset or subset of the dataset for each team member.
+
+## Challenges anticipated
+
+If you are looking for help with some aspect of your project or want feedback on a specific topic, ask for it here.
+
+## References
+
+Describe the source of your data here, including a link to where the data can be found on the internet (or elsewhere!)
+
+If you used any sources as inspiration give them as well. None are required.
+
