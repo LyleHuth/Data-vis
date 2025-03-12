@@ -48,6 +48,8 @@ You provided a reference so I know where your data came from. You did not provid
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+install.packages("ggfortify")
+install.packages("janitor")
 library(tidyverse)
 library(here)
 library(ggfortify)
@@ -55,7 +57,6 @@ library(broom)
 library(ggrepel)
 library(kableExtra)
 library(janitor)
-
 ```
 
 As you work on this proposal, write your responses under the corresponding heading. **Delete the instructions (including this paragraph) before submitting your proposal.**
