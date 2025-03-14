@@ -55,50 +55,80 @@ library(ggtext)
 library(kableExtra)
 library(dplyr)
 library(knitr)
+library(skimr)
 ```
 
 As you work on this proposal, write your responses under the corresponding heading. **Delete the instructions (including this paragraph) before submitting your proposal.**
 
 ## Questions to be investigated
 
-1. How does the position (running back, wide receiver, quarter back, defensive player, punter) of an NFL player influence their average career length and what factors may induce a shorter career?
+1. How does the position of an NFL player influence their career length and what factors may induce a shorter career?
 
 2. How does the height and weight of a player at a given position affect their injury sensativity and comparatively, their willingness to take hits?
 
 ## Data to be used
 
-This is a key part of your proposal! 
+* a general description of the dataset
+We are analyzing data from seven different .csv datasets, five of which contain data of a player's career statistics by season, at each relevent position (being quarterback, running back, wide receiver, defensive player, and punter). The sixth dataset contains every players background information, including their height, weight, and years played in the NFL. The seventh and final dataset contains reported injury data over several years.
 
-Describe the data you plan to use including
+* the variables and type (categorical with a description of the levels, quantitative with units)
+CATEGORICAL:
+- Position (quarterback, running back, wide receiver, defensive player, punter)
+- Injury designation (body part injured)
+- Defensive play (sacks, interceptions, tackles)
 
-* a general description of the dataset,
-* the variables and type (categorical with a description of the levels, quantitative with units),
-* the number of observations,
+QUANTITATIVE:
+- passing yards + attempts
+- rushing yards + attempts
+- kicking yards + attempts
+- Height (ft)
+- Weight (lbs)
+- career length (seasons - equivalent to years)
+- length of injury (games - equivalent to weeks)
+
+* the number of observations
+Each dataset has between 8000 up to 80,000 observations. After cleaning the data, clearing out Null/ Nan values, we expect to have at least 1000 observations.
+
 *  metadata that are relevant including who collected the data, when they were collected, how they were collected (a survey, random sample, exhaustive sample, experiment, etc.)
+The data was collected by the nfl and official partner 'next gen stats' over the history of the national football league. The dataset takes the full population, but after cleaning if there is still an excess of data we may collect a smaller sample.
 
-Include a copy of the data in one of three ways:
-1. place your data file in your github repository and provide the link
-2. provide a download link to your dataset (not necessarily on github)
-3. or upload your dataset to BS with your proposal (preferred solution)
+── Data Summary ────────────────────────
+                           Values
+Name                       data  
+Number of rows             17172 
+Number of columns          16    
+_______________________          
+Column type frequency:           
+  character                12    
+  numeric                  4     
+________________________         
+Group variables            None  
 
-[In any case, I need to be able to access and use YOUR dataset.]
-
-Read the data into R here. Present one or several summary tables or the output of `skimr::skim()` on your data to supplement the descriptive (in plain english not code) information you've provided.
-
-No need to run any model here!
-
-Look at the structure of the data. Explain the key variables that you plan to visualize/analyze (if your dataset has many, e.g. > 30 columns, you dont need to use all the columns).
+The categorical and quantitative variables used are above.
 
 ```{r}
-# my_data <- read_csv(...)
+file_list <- list.files(path = "2430_csv_files", pattern = "*.csv", full.names = TRUE)
+my_data <- lapply(file_list, read.csv)
+
 # Your data does not need to be in csv format.
 ```
 
 ## Ideas for visualization
-Plan to use a PCA, to help reduce the complexity of the data and indentify paterns of the player performance over time. A regression model will help look at performance, injuries and age and how they influence player longevity. A cluster model will help group the players into different cluster based on their performance statistics and their longevity.
+We plan to use a PCA, to help reduce the complexity of the data and indentify patterns of a players performance over time. A regression model will help look at performance, injuries and age and how they influence player longevity. A cluster model will help group the players into different cluster based on their performance statistics and their longevity.
 
 ## Team planning
-Both members working together in person on the same datatset, collaborting on each part of the project, no one individual is completing a section on their own.
+Our plan is that both members working together in person on the same datatset, collaborting on each part of the project, no one individual is completing a section on their own.
+If we are intended to divide our work amongst eachother,
+Lyle Huth:
+- Plot construction of 2 of the 5 visualizations
+- Data cleaning and prepping for analysis
+- Sorting and choosing which variables to compare
+- 
+
+Callum Deveaux:
+- Plot construction of 3 of the 5 visualizations
+- Analysis of discovered trends
+- Organization of our report and presentation
 
 ## Challenges anticipated
 No help needed.
@@ -106,6 +136,7 @@ No help needed.
 ## References
 
 Describe the source of your data here, including a link to where the data can be found on the internet (or elsewhere!)
-
+We used kaggle.com for our datasets. We are aware of the risk of false or randomly generated data from kaggle, however the datasets used in this notebook were taken directly from the nfl.com official website.
+https://www.kaggle.com/code/chastings25/nfl-career-health-and-length-analysis
 If you used any sources as inspiration give them as well. None are required.
 
