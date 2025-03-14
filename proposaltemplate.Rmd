@@ -114,7 +114,7 @@ my_data <- lapply(file_list, read.csv)
 ```
 
 ## Ideas for visualization
-We plan to use a PCA, to help reduce the complexity of the data and indentify patterns of a players performance over time. A regression model will help look at performance, injuries and age and how they influence player longevity. A cluster model will help group the players into different cluster based on their performance statistics and their longevity.
+We plan to use a PCA (ggforitfy,prcomp), to help reduce the complexity of the data and indentify patterns of a players performance over time. A regression model(lm) will help look at performance, injuries and age and how they influence player longevity. A cluster model(kmeans) will help group the players into different cluster based on their performance statistics and their longevity.
 
 ## Team planning
 Our plan is that both members working together in person on the same datatset, collaborting on each part of the project, no one individual is completing a section on their own.
