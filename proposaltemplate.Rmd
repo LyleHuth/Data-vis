@@ -57,8 +57,9 @@ library(dplyr)
 library(knitr)
 library(skimr)
 ```
+## Introduction
+We are using the NFL 
 
-As you work on this proposal, write your responses under the corresponding heading. **Delete the instructions (including this paragraph) before submitting your proposal.**
 
 ## Questions to be investigated
 
