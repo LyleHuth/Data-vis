@@ -1,7 +1,7 @@
 ---
-title: 'A retrospective analysis of 1974 motor cars performance'
-author: "Team: Philippe FULLSACK + Me MYSELFANDI"
-date: "`r Sys.Date()`"
+title: 'NFL Player Longevity Trends and Insights'
+author: "Team: Lyle Huth and Callum Deveaux"
+date: "2025-04-08"
 output:
   html_document:
     theme: dark
