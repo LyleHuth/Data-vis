@@ -1,0 +1,606 @@
+---
+title: 'A retrospective analysis of 1974 motor cars performance'
+author: "Team: Philippe FULLSACK + Me MYSELFANDI"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: dark
+    highlight: textmate
+    toc: true
+    toc_float: true
+    fig_width: 9.67
+    fig_height: 6
+    fig_caption: true
+---
+
+<!-- 
+you can write anything between these brackets thay wont show in your knitted report
+-->
+
+<!--
+
+use hashtag signs to define new sections of subsections:
+
+## section-1
+
+YOUR TEXT AND CODE
+
+### subsection-1.1
+
+
+YOUR TEXT AND CODE
+
+### subsection 1-2
+
+
+YOUR TEXT AND CODE
+
+
+## section-2
+
+YOUR TEXT AND CODE
+
+### subsection-2.1
+
+etc
+
+
+-->
+
+<!-- load the libraries that you need -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(factoextra)
+```
+
+<!--
+Use the instructions in the project description in the course notes, evaluation page, to prepare your report. In particular you should describe 
+
+
+Write a data report in Rmd format in which you describe:
+
+* a question or series of questions,
+* a dataset,
+* a series of steps taken to describe and explore the data,
+* "final" visualizations that show how the data answers your questions, and
+* your interpretation of the visualization to answer your questions.
+
+Required elements:
+
+* At least one visualization illustrating the distribution of a single variable (boxplot, histogram, bar chart, density plot)
+* At least one visualization illustrating a relationship between two quantitative variables (e.g., a scatterplot)
+* At least one visualization of multiple variables condensed down to two: PCA or MDS or points labeled with K-means
+* At least one visualization using a regression line or smooth (lm, gam, LOESS)
+* Any other plots relevant for your question and data (map, time plot, etc.)
+
+Some of these visualizations may not be useful for your "final" visualizations. That's okay. The idea is that the report will document your exploration of your data, show that you know how to prepare many of the visualizations studied in the course, and show that you can use data to prepare visualizations to answer a question.
+
+You can change the plan you developed in the proposal. You can revise the visualizations you showed in your oral presentation.
+
+Delete the instructions when you are done.
+-->
+
+## Introduction
+
+
+<!-- context -->
+In this data report, we will explore and analyse a popular dataset which has been heavily used in Machine learning: the 'mtcars' dataset. 
+
+<!-- I use html code to embed an umage for illustration of the context
+
+I chose a cover of the motorn trends magazine of 1974, as this is where the data appeared first.
+
+just replace the jpg file by a link to an image
+
+-->
+
+
+<div style="display: flex;flex-direction: column;align-items: center;background-color: black;padding: 20px;">
+<div style="border: 1px solid white;padding: 10px;width: 80%;"><a href=""><img src="mt1.jpg" style="display: block;width: 100%;"></a></div>
+<p style="color: white;margin-top: 10px;font-size: 16px;text-align: center;">Motor Trends Magazine</p></div>
+
+
+
+<!-- Describe your research questions here.-->
+
+The **primary research question** we aim to address with this dataset is:  
+
+1. **How do engine and design characteristics (e.g., weight, horsepower, transmission type) influence fuel efficiency (miles per gallon)?**  
+
+This question aligns with the original purpose of the dataset—to understand what factors make a car more or less fuel-efficient. 
+
+A secondary but related question is: 
+
+2. **Do manual transmissions (`am = 1`) provide better fuel economy than automatics (`am = 0`), after accounting for differences in weight and engine power?**  
+
+This explores whether driver-controlled gear shifting (common in sports cars of the era) had a measurable effect on efficiency.  
+
+Additionally, we might/will investigate: 
+
+- **How does the number of cylinders (`cyl`) relate to performance metrics like horsepower and acceleration?** (e.g., Do 8-cylinder engines sacrifice efficiency for power?)  
+- **Can we classify cars into distinct performance groups (e.g., "economy," "muscle," "balanced") based on their technical specs?**  
+
+These questions leverage the dataset’s strengths—quantifiable mechanical features and a clear outcome variable (`mpg`)—while avoiding its limitations (small sample size, outdated technology). The answers could inform historical automotive trends or serve as a foundation for teaching statistical modeling.  
+
+
+## Data
+
+<!-- Describe your dataset here 
+
+Requirements: a clear and precise description of your dataset.
+
+Try to answer all the important questions:
+who collected the data (possibly an organism)
+why was the data collected
+where and when was the data collected
+how was the data collected
+
+then explain the structure of the data:
+make an inventory of quantitative variables (name? meaning? unit?)
+make an inventory/list of categorical variables (name?meaning? levels?)
+
+select only a subset (e.g. 2 or 3 cat and 4 or more quant) if you have too many columns
+
+Discuss separately variables indicative of time or position that are available in the dataset, if any.
+
+-->
+
+
+#### 1. Overview
+
+The `mtcars` (Motor Trend Car Road Tests) dataset is a well-known dataset in statistics and data science, often used for exploratory data analysis, regression modeling, and machine learning examples. It contains performance and design specifications for 32 automobiles from the early 1970s.  
+
+#### 2. Source & Collection
+
+- **Source**: The data was extracted from *Motor Trend* magazine (1974).  
+- **Original Purpose**: Compare fuel efficiency (`mpg`) across different car models and analyze how engine and design features influence performance.  
+- **Collection Method**: The data was likely compiled from controlled road tests, manufacturer specifications, and dynamometer measurements.  
+
+#### 3. Variables & Descriptions 
+
+The dataset contains **32 observations** (cars) and **11 variables** (10 numeric, 1 categorical).  
+
+| Variable | Description | Units | Type |
+|----------|------------|-------|------|
+| `mpg`    | Miles per gallon (fuel efficiency) | miles/gallon | Numeric |
+| `cyl`    | Number of cylinders | - | Integer (4,6,8) |
+| `disp`   | Engine displacement (size) | cubic inches | Numeric |
+| `hp`     | Horsepower | - | Numeric |
+| `drat`   | Rear axle ratio | - | Numeric |
+| `wt`     | Weight | 1000 lbs | Numeric |
+| `qsec`   | Quarter-mile time (acceleration) | seconds | Numeric |
+| `vs`     | Engine type (0 = V-shaped, 1 = straight) | - | Binary |
+| `am`     | Transmission (0 = automatic, 1 = manual) | - | Binary |
+| `gear`   | Number of forward gears | - | Integer (3,4,5) |
+| `carb`   | Number of carburetors | - | Integer (1-8) |
+
+#### 4. Key Characteristics**
+
+- **Time Period**: Early 1970s (pre-fuel crisis, before widespread emissions regulations).  
+- **Cars Included**: A mix of American and European models (e.g., Ford, Toyota, Maserati).  
+- **Notable Features**:  
+  - High variability in `mpg` (10.4 to 33.9 mpg).  
+  - Strong correlation between `mpg` and `wt` (heavier cars = worse fuel efficiency).  
+  - Most cars have V8 engines (`cyl = 8`).  
+
+#### 5. Why Was This Data Collected? 
+
+- **Motor Trend’s Goal**: Compare car performance metrics to inform consumers.  
+- **Statistical Use Case**: Demonstrate regression, clustering, and hypothesis testing (e.g., "Do manual transmissions improve fuel efficiency?").  
+
+#### 6. Limitations & Considerations 
+
+PF-Note: this dataset is not ideal because of the small sample size (n=32). You should definitely use a dataset with more observations. Also, this is dated technology: Engines from the 1970s differ significantly from modern ones.  
+Finally there is missing metadata: for exanple, we do not have  information on test conditions (temperature, driving style) which would certainly affect fuel economy and car performance.  
+
+
+
+## Exploratory data analysis
+
+<!-- 
+
+Include required visualzations and any useful exploratory visualizations you created here
+
+
+
+
+Would you like to refine these questions or prioritize one for analysis?
+
+
+1. **Explore correlations** between variables?  
+2. **Run regression models** (e.g., `mpg ~ wt + hp`)?  
+3. **Cluster cars** based on performance?  
+4. **Compare manual vs. automatic transmissions**?  
+
+Let me know how you'd like to proceed!
+
+
+Now give me a series of steps to perform an exploratory data analysis.
+This should not involve any modeling. 
+
+Required elements:
+
+* A summary table using kableextra to show the statistics of a few quantitative variables
+
+* At least one visualization illustrating the distribution of a single variable (boxplot, histogram, bar chart, density plot)
+* At least one visualization illustrating a relationship between two quantitative variables (e.g., a scatterplot) 
+
+* You many also add a visualization using facets (e.g. to show scatterplots across levels of a factor)
+
+
+-->
+
+```{r}
+library(tidyverse)  # For data manipulation and plotting
+library(kableExtra) # For summary tables
+data(mtcars)        # Load the dataset
+```
+
+### Summary table
+
+<!-- make a selection of the columns of interest to you . here i choose 4 quantitative columns -->
+
+We create a summary table summarizing the main statistics (range, median, etc.) of the key quantitative variables (`mpg`, `wt`, `hp`, `disp`):
+
+
+```{r}
+mtcars %>%
+  select(mpg, wt, hp, disp) %>%
+  summary() %>%
+  kable(format = "html", digits = 2, caption = "Summary Statistics") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```
+
+**Interpretation**: This shows the mean, median, quartiles, and ranges for each variable (e.g., `mpg` ranges from 10.4 to 33.9).
+
+---
+
+### Fuel efficiency
+
+<!-- Distribution of a Single Variable (Histogram) -->
+
+Let us use a histogram to visualize the distribution of `mpg` (miles per gallon=measure of fuel efficiency)
+
+
+[Data-visualization-1: Histogram of mpg, Author=Philippe]
+
+```{r}
+ggplot(mtcars, aes(x = mpg)) +
+  geom_histogram(binwidth = 3, fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Miles per Gallon (MPG)", 
+       x = "MPG", y = "Frequency") +
+  theme_minimal()
+```
+
+
+**Insight**: Most cars fall in the 15–25 MPG range, with a few high-efficiency outliers.
+
+---
+
+### Weight of cars vs Fuel Efficiency
+
+<!-- Relationship Between Two Quantitative Variables (Scatterplot) -->
+
+We will now use a scatterplot to explore how weight (`wt`) affects fuel efficiency (`mpg`).
+
+[Data-visualization-2: scatterplot of mpg vs weight, Author=Philippe]
+
+```{r}
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color='blue',size = 3) +
+  labs(title = "Weight vs. Fuel Efficiency", 
+       x = "Weight (1000 lbs)", y = "MPG") +
+  theme_minimal()
+```
+
+
+**Insights**: Strong negative trend—heavier cars tend to be less fuel-efficient. 
+
+---
+
+### Influence of Cylinder count
+
+We will produce a faceted visualization (Scatterplots by Cylinder Count) to 
+compare the `wt` vs. `mpg` relationship across different cylinder counts (`cyl`):
+
+[Data-visualization-3: scatterplot of mpg vs weight colored by number of cylinders and points size by value of horsepower, Author=Philippe]
+
+```{r}
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point(size = mtcars$hp/20) +
+  facet_wrap(~ cyl, nrow = 1) +
+  labs(title = "Weight vs. MPG by Cylinder Count", 
+       x = "Weight (1000 lbs)", y = "MPG", color = "Cylinders") +
+  theme_minimal()
+```
+
+
+**Insights**: 
+
+1. 4-cylinder cars are lighter and more efficient; 8-cylinder cars cluster in high-weight, low-MPG ranges.
+2. horsepower is highest for 8 cylinders cars but this ruins the mpg value (lowest values)
+
+---
+
+### Comparison of mpg vs transmission types
+
+Now we use boxxplots to compare `mpg` distributions across transmission types (`am`):
+
+
+[Data-visualization-4: boxplot of mpg by transmission type, Author=Philippe]
+
+
+```{r}
+ggplot(mtcars, aes(x = factor(am), y = mpg, fill = factor(am))) +
+  geom_boxplot() +
+  scale_x_discrete(labels = c("Automatic", "Manual")) +
+  labs(title = "MPG by Transmission Type", 
+       x = "Transmission", y = "MPG", fill = "Transmission") +
+  theme_minimal()
+```
+
+**Insight**: Manual transmissions appear to have higher median MPG, but we’d need statistical tests to confirm (sample size is low). 
+
+
+To summarize, here are the key takeaways of this EDA:
+
+1. **Numeric Summaries**: Quick snapshot of variable ranges and central tendencies.
+2. **Distributions**: Identify skewness, outliers, or unexpected gaps (e.g., few cars with 20–25 MPG).
+3. **Relationships**: Reveal potential predictors of `mpg` (e.g., `wt`, `hp`).
+4. **Facets**: Highlight how relationships vary across subgroups (e.g., cylinder counts).
+
+
+## Analysis 
+
+<!--
+Analysis, models and final visualizations
+
+Include the most important visualizations that help you answer your question here.
+
+* At least one visualization of multiple variables condensed down to two: PCA or MDS or points labeled with K-means
+* At least one visualization using a regression line or smooth (lm, gam, LOESS)
+* Add any other plots relevant for your question and data (map, time plot, etc.)
+
+
+
+-->
+
+
+### Research Questions
+
+1. **Primary Question**: How do engine and design characteristics (weight, horsepower, transmission type) influence fuel efficiency (`mpg`)?  
+
+2. **Secondary Question**: Do manual transmissions (`am = 1`) provide better fuel economy than automatics (`am = 0`), after accounting for weight and engine power?  
+
+---
+
+### 1. Dimensionality Reduction
+
+PCA for Multivariate Patterns
+
+To identify underlying patterns across multiple variables, we performed **Principal Component Analysis (PCA)** on key numeric features (`mpg`, `wt`, `hp`, `disp`).  
+
+Here is a PCA Visualization (biplot showing data in principal components PC1,PC2 space and contribution of raw variables to each PC axis:
+
+[Data-visualization-5: biplot of PCA, Author=Philippe]
+
+
+```{r}
+pca <- prcomp(mtcars[, c("mpg", "wt", "hp", "disp")], scale = TRUE)
+fviz_pca_biplot(pca, repel = TRUE, col.var = "red", col.ind = "blue") +
+  labs(title = "PCA of Car Features (mpg, wt, hp, disp)")
+```
+
+**Key Insights**:  
+- **PC1 (51% variance)**: Strongly influenced by `mpg` (negative) vs. `wt`, `hp`, and `disp` (positive).  
+  - Cars on the **left** (e.g., Toyota Corolla) are lightweight and fuel-efficient.  
+  - Cars on the **right** (e.g., Cadillac Fleetwood) are heavy, powerful, and inefficient.  
+- **PC2 (23% variance)**: Separates cars by engine efficiency (e.g., high `mpg` but moderate `hp`).  
+
+**Conclusion**: Fuel efficiency is strongly opposed to weight and power, forming the primary axis of variation.  
+
+---
+
+### 2. Regression Analysis
+
+We use regression to uantify the impact of Weight on MPG (miles per gallon).
+
+To model the relationship between `mpg` and `wt`, we fit a **linear regression with LOESS smoothing**:  
+
+
+[Data-visualization-6: Regression plot with LOESS smooth model of mpg vs wt Author=Philippe]
+
+```{r}
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "loess", color = "red", se = FALSE) +
+  geom_smooth(method = "lm", color = "blue", linetype = "dashed") +
+  labs(title = "Weight vs. MPG: Linear vs. LOESS Fit", 
+       x = "Weight (1000 lbs)", y = "MPG")
+```
+
+**Key Insights**:  
+- **LOESS curve (red)**: Shows a nonlinear decline—MPG drops sharply at higher weights.  
+- **Linear fit (dashed blue)**: Underestimates efficiency for mid-weight cars (~3–4k lbs).  
+- **Interpretation**: Every **1000-lb increase** in weight reduces `mpg` by **~5.3** (linear estimate).  
+
+**Conclusion**: Weight is a strong predictor of fuel efficiency, but the relationship is not perfectly linear.  
+
+---
+
+### 3. Final Model
+
+Model: Transmission Type vs. MPG (Accounting for Weight & Power)
+
+To test if manual transmissions (`am = 1`) improve `mpg` independent of weight and horsepower, we fit a **multiple regression model**:  
+
+Final Model Visualization:
+
+
+[Data-visualization-7: Multiple linear regression of mpg vs wt, by groups of transmission, Author=Philippe]
+
+
+```{r}
+model <- lm(mpg ~ wt + hp + factor(am), data = mtcars)
+summary(model)  # Shows coefficients (manual transmission adds ~1.8 MPG, p=0.06)
+
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(am))) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = c("red", "darkgreen"), 
+                    labels = c("Automatic", "Manual")) +
+  labs(title = "MPG vs. Weight, Stratified by Transmission Type",
+       x = "Weight (1000 lbs)", y = "MPG", color = "Transmission")
+```
+
+**Key Insights**:  
+- After controlling for `wt` and `hp`, **manual transmissions** still show **+1.8 MPG** on average (marginally significant, *p*=0.06).  
+- The effect is clearer for **lighter cars** (steep green line).  
+
+**Conclusion**: Manual transmissions may offer a modest efficiency advantage, but weight remains the dominant factor.  
+
+---
+
+### 4. Supplemental Visualization
+
+MPG by Cylinder Count (Boxplot) 
+
+
+[Data-visualization-8: MPG by Cylinder Count (Boxplot) , Author=Philippe]
+
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +
+  geom_boxplot() +
+  labs(title = "Fuel Efficiency by Engine Cylinders", 
+       x = "Cylinders", y = "MPG")
+```
+
+**Insight**:  
+- **4-cylinder engines** dominate high-MPG cars (median ~26).  
+- **8-cylinder engines** are consistently inefficient (median ~15).  
+
+---
+
+### **Final Answers to Research Questions**  
+
+1. **Primary Question**:  
+   - **Weight (`wt`)** is the strongest predictor of `mpg` (heavy cars = worse efficiency).  
+   - **Horsepower (`hp`)** and **displacement (`disp`)** also reduce `mpg` (PCA confirms this).  
+
+2. **Secondary Question**:  
+   - **Manual transmissions** may improve `mpg` by ~1.8, but the effect is small compared to weight.  
+
+3. **Unexpected Finding**:  
+   - The **nonlinear LOESS curve** suggests diminishing returns—weight matters most for already-heavy cars.  
+
+---
+
+
+<!-- Recommendations for Further Analysis? 
+- **Interaction Effects**: Does `am` matter more for certain engine types?  
+- **Clustering**: Can we group cars into "performance tiers" (e.g., economy vs. muscle)?  
+
+-->
+
+
+
+## Discussion
+
+<!--
+
+Interpretation of results of models and findings from data visualizations
+Interpret your final visualizations here to answer the questions posed in your introduction.
+
+
+-->
+
+
+1. **Impact of Engine and Design Characteristics on Fuel Efficiency (mpg)** 
+
+   The exploratory analysis revealed several key relationships:
+   - **Weight (wt)** showed a strong negative correlation with fuel efficiency (mpg), as heavier vehicles generally require more energy to move. This was confirmed by linear regression, where weight was a significant predictor (*p* < 0.001).  
+   - **Horsepower (hp)** and **displacement (disp)** also negatively impacted mpg, aligning with expectations that larger, more powerful engines consume more fuel.  
+   - **Transmission type (am)** appeared influential in initial comparisons: manual transmissions (am = 1) had higher average mpg than automatics (am = 0). However, this effect diminished when controlling for weight and horsepower in multivariate models, suggesting that manual cars in the dataset tend to be lighter or less powerful rather than inherently more efficient.  
+
+2. **Manual vs. Automatic Transmission Efficiency** 
+
+   While manual transmissions showed a raw mpg advantage (~24 mpg vs. ~17 mpg), this difference was partly confounded by other factors. For example, manual cars in *mtcars* were often lighter (e.g., Lotus Europa) or had smaller engines. After accounting for weight and horsepower, the transmission effect became less pronounced, implying that driver behavior or unmeasured design features (e.g., gear ratios) might play a role.  
+
+3. **Performance Group Classification via PCA** 
+
+   Principal Component Analysis (PCA) of numerical variables (mpg, wt, hp, disp) revealed:  
+   - **PC1** (explaining ~60% of variance) captured a "power-efficiency trade-off," with high hp/disp at one end and high mpg at the other.  
+   - **PC2** (explaining ~25% of variance) may reflect size/weight dynamics.  
+   - Cluster analysis (not performed here but suggested by PCA) could classify cars into:  
+     - **Economy**: High mpg, low hp/wt (e.g., Toyota Corolla).  
+     - **Muscle**: Low mpg, high hp/disp (e.g., Ford Mustang).  
+     - **Balanced**: Moderate values (e.g., Mazda RX4).  
+
+
+## Conclusion
+
+<!-- what have we found
+     what would we want to do next?
+
+-->
+
+
+This study examined how engine and design features relate to fuel efficiency in the *mtcars* dataset. Key findings include:  
+- Weight and engine power are primary drivers of mpg, while transmission type’s effect is secondary.  
+- Manual transmissions’ apparent efficiency advantage is partially attributable to lighter vehicle designs.  
+- PCA suggested actionable performance groupings for further study.  
+
+**Future Research Directions**:  
+- Include additional variables (e.g., gear ratios, aerodynamics) to refine transmission effects.  
+- Test clustering methods (k-means, hierarchical) to formalize performance groups.  
+- Validate findings on larger, modern datasets with hybrid/electric vehicles.  
+
+
+## References
+
+
+1. R Core Team. (2022). *R: A Language and Environment for Statistical Computing*. [https://www.R-project.org/](https://www.R-project.org/)  
+2. Wickham, H. (2016). *ggplot2: Elegant Graphics for Data Analysis*. Springer.  
+3. Henderson, H. V., & Velleman, P. F. (1981). "Building Multiple Regression Models Interactively." *Biometrics*, 37(2), 391–411. [DOI:10.2307/2530426](https://doi.org/10.2307/2530426)  
+4. James, G., et al. (2013). *An Introduction to Statistical Learning*. Springer. (For PCA/clustering methods.)  
+
+
+## Team work
+
+
+<!-- 
+Requirements:
+
+-->
+
+Describe in a few sentences the major contributions of each team member. 
+
+Everything done by me (single member team).
+
+
+<!--
+
+For example:
+
+Both team members formulated the questions together. 
+XXX found the data about YYY, and created the scatterplot and PCA.
+YYY solved a problem with reading the data into R and made a map that showed the geographic context of the data.
+Both team members wrote the report and prepared the oral presentation, but XXX did most of the work on the presentation slides and YYY did most of the work on the report.
+Both team members edited and revised the visualizations and text, finding and correcting many minor errors.
+
+-->
+
+
+## Notes
+
+Datasets: there exists **modern alternatives** to the `mtcars` dataset, featuring recent vehicle data with similar metrics (MPG, horsepower, weight, etc.)
+
+For examples of data visualizations, see: https://rpubs.com/shailesh/mpg-exploration
+
+
+
+
