@@ -20,6 +20,24 @@ library(dplyr)
 library(knitr)
 library(skimr)
 ```
+##Introduction 
+In this Data report we use data from seven different datasets, they look at a player's career statistics by season at each relevent position, their indivual stats including their height, weight, and years played in the NFL. Lastly their reported injuries over the years.
+
+*Gonna install some kind of cover image here to go with our report
+
+Main Research Question:
+
+How do injuries impact the career length of NFL players, and are certain positions or player builds more prone to injury?
+This question will be explored using various datasets that include information on player height, weight, position, and age.
+
+To go deeper into this topic, the following questions will also be looked at:
+
+How long do players typically last at each position, and what factors contribute to shorter careers?
+How does a player's physical build within a given position influence their susceptibility to injuries and, in comparison, their willingness to absorb contact?
+
+These questions offer a clear framework for analyzing our large dataset, helping us uncover trends in player health and their ability to sustain long-term careers in the NFL.
+
+##Data
 
 ```{r}
 file_list <- list.files(path = "2430_csv_files", pattern = "*.csv", full.names = TRUE)
