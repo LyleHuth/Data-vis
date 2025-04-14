@@ -98,11 +98,11 @@ Missing Data:
 - Null or missing values (e.g., incomplete injury logs or stats for rookies).
 Injury data may be inconsistently reported or lack severity ratings.
 Position-Specific Data Gaps:
-Some variables (e.g., sacks or receptions) are only applicable to certain roles.
+- Some variables (e.g., sacks or receptions) are only applicable to certain roles.
 Potential Biases:
-Players with longer careers naturally accumulate more stats, which could skew results if not normalized.
+- Players with longer careers naturally accumulate more stats, which could skew results if not normalized.
 Cleaning & Sampling:
-Original datasets range from 8,000 to 80,000 rows. After cleaning a refined sample of 1,000 players is expected to be analyzed.
+- Original datasets range from 8,000 to 80,000 rows. After cleaning a refined sample of 1,000 players is expected to be analyzed.
 
 ## Exploratory data analysis
 
