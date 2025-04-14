@@ -20,6 +20,8 @@ library(dplyr)
 library(knitr)
 library(skimr)
 library(jpeg)
+library(readr)
+library(janitor)
 ```
 ## Introduction 
 In this Data report we use data from seven different datasets, they look at a player's career statistics by season at each relevent position, their indivual stats including their height, weight, and years played in the NFL. Lastly their reported injuries over the years.
@@ -190,6 +192,49 @@ basic_stats_cleaned %>%
 # Morten Anderson - NFL record holder for games played, points (2544), and field goals (565).
 #Kicker
 ```
-### Injury Status by Career Length
-PCA to Reduce the dimensionality of dataset  to a few "principal components" that explain most of the variance, and visualize the structure.
-[Data-visualization-3: PCA scatterplot of NFL player data, colored by injury status and point size by career length, Author=Callum]
+### Age by position and weight
+Final vizualization is a scatter plot illustrates the relationship between player age and weight, with a linear regression line fitted for each group categorized by side of the ball.
+[Visualization 5: Multiple Linear Regression of Age vs. Weight, Grouped by Player Role (Offense, Defense, Special Teams) Author =Callum]
+
+```{r}
+all_data %>%
+  filter(is.na(side_of_ball) | side_of_ball == "Other") %>%
+  count(position.x) %>%
+  arrange(desc(n))
+
+all_data <- all_data %>%
+  mutate(
+    side_of_ball = case_when(
+      position.x %in% c("QB", "RB", "FB", "WR", "TE", "OL", "C", "G", "T") ~ "Offense",
+      position.x %in% c("DE", "DT", "LB", "OLB", "ILB", "MLB", "CB", "DB", "FS", "SS", "NT", "SAF", "EDGE") ~ "Defense",
+      position.x %in% c("K", "P", "LS") ~ "Special Teams",
+      TRUE ~ "Unknown"
+    )
+  )
+
+geom_jitter(width = 5, height = 0.3, size = 2, alpha = 0.6)
+
+
+geom_jitter(width = 5, height = 0.3, size = 2, alpha = 0.4)
+
+geom_density2d(color = "grey40")
+
+geom_bin2d(bins = 30, alpha = 0.5) +
+scale_fill_viridis_c()
+
+ggplot(all_data %>% filter(side_of_ball != "Unknown"), 
+       aes(x = weight_lbs, y = age, color = side_of_ball)) +
+  geom_jitter(width = 5, height = 0.3, alpha = 0.5, size = 2) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  facet_wrap(~ side_of_ball) +
+  scale_color_manual(values = c("Offense" = "light green", "Defense" = "red", "Special Teams" = "blue")) +
+  labs(
+    title = "Age vs. Weight by Side of Ball",
+    x = "Weight (lbs)",
+    y = "Age",
+    color = "Side of Ball"
+  ) +
+  theme_minimal()
+```
+#### Key Insights 
+Age trends by weight reveal that defensive players are generally younger and don't last as long, offensive players fall in the middle, and special teams players—especially lighter ones—can remain active at older ages.
