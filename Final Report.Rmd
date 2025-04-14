@@ -19,6 +19,7 @@ library(kableExtra)
 library(dplyr)
 library(knitr)
 library(skimr)
+library(jpeg)
 ```
 ## Introduction 
 In this Data report we use data from seven different datasets, they look at a player's career statistics by season at each relevent position, their indivual stats including their height, weight, and years played in the NFL. Lastly their reported injuries over the years.
