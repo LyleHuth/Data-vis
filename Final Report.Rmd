@@ -59,9 +59,9 @@ The data was collected by the NFL and its official analytics partner, Next Gen S
 | receptions       | Total career receptions                    | count          | Numeric                       |
 | tackles          | Defensive tackles (DEF)                    | count          | Numeric                       |
 | sacks            | Quarterback sacks made (DEF)               | count          | Numeric                       |
-| interceptions    | Interceptions made (DEF)	                | count	         | Numeric                       |
-| punts	           | Total career punts (punters)	         | count	         | Numeric                       |
-| punt_yards	    | Total punt yardage	                  | yards	         | Numeric                       |
+| interceptions    | Interceptions made (DEF)                   | count          | Numeric                       |
+| punts            | Total career punts (punters)               | count          | Numeric                       |
+| punt_yards       | Total punt yardage                         | yards          | Numeric                       |
 | injury_type      | Body part or type of injury                | –              | Categorical                   |
 | injury_duration  | Games/weeks missed due to injury           | games/weeks    | Numeric                       |
 Note: Not all players have values for every stat (e.g., QBs don’t have punt stats). Some variables are position-specific.
