@@ -190,3 +190,6 @@ basic_stats_cleaned %>%
 # Morten Anderson - NFL record holder for games played, points (2544), and field goals (565).
 #Kicker
 ```
+### Injury Status by Career Length
+PCA to Reduce the dimensionality of dataset  to a few "principal components" that explain most of the variance, and visualize the structure.
+[Data-visualization-3: PCA scatterplot of NFL player data, colored by injury status and point size by career length, Author=Callum]
