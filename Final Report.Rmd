@@ -49,18 +49,48 @@ The data was collected by the NFL and its official analytics partner, Next Gen S
 | position         | Player's on-field role                     | –              | Categorical (QB, RB, WR, etc.)|
 | height           | Player height                              | feet + inches  | Numeric                       |
 | weight           | Player weight                              | pounds         | Numeric                       |
+| age              | Player age                                 | years          | Numeric                       |
 | career_length    | Total seasons in NFL                       | years          | Numeric                       |
 | passing_yards    | Total passing yards (QBs)                  | yards          | Numeric (position-specific)   |
 | passing_attempts | Total passing attempts                     | count          | Numeric                       |
-| injury_duration  | Games/weeks missed due to injury           | games/weeks    | Numeric                       |
-| weight           | Player weight                              | pounds         | Numeric                       |
-| career_length    | Total seasons in NFL                       | years          | Numeric                       |
-| passing_yards    | Total passing yards (for QBs)              | yards          | Numeric (position-specific)   |
+| rushing_yards    | Total rushing yards (RBs, QBs)             | yards          | Numeric                       |
+| rushing_attempts | Total rushing attempts                     | count          | Numeric                       |
+| receiving_yards  | Total receiving yards (WRs, RBs, TEs)      | yards          | Numeric                       |
+| receptions       | Total career receptions                    | count          | Numeric                       |
+| tackles          | Defensive tackles (DEF)                    | count          | Numeric                       |
+| sacks            | Quarterback sacks made (DEF)               | count          | Numeric                       |
+| interceptions    |	Interceptions made (DEF)	                | count	         | Numeric                       |
+| punts	           | Total career punts (punters)	              | count	         | Numeric                       |
+| punt_yards	     | Total punt yardage	                        | yards	         | Numeric                       |
 | injury_type      | Body part or type of injury                | –              | Categorical                   |
-| injury_duration  | Games/weeks missed due to injury           | games/weeks    | Numeric        
+| injury_duration  | Games/weeks missed due to injury           | games/weeks    | Numeric                       |
+Note: Not all players have values for every stat (e.g., QBs don’t have punt stats). Some variables are position-specific.
 
+4. Key Characteristics
+Time Period: 
+- Covers multiple seasons of the NFL,spanning from the early 2000s to recent years.
+Players Included: Thousands of NFL athletes across all positions, from quarterbacks to punters.
+Notable Features:
+- Large variability in career length, especially between high-contact positions (e.g., RBs) and specialists (e.g., kickers, punters).
+Significant differences in injury patterns across positions and body builds.
 
+5. Why Was This Data Collected?
+Purpose of Collection:
+- Data gathered by the NFL and Next Gen Stats to monitor and evaluate player performance, health, and career progression.
+Statistical Use Case:
+- Enables analysis of injury risk, career longevity, and position-specific physical demands.
+Useful for machine learning models predicting injury likelihood or career length based on physical build and position.
 
+6. Limitations & Considerations
+Missing Data:
+- Null or missing values (e.g., incomplete injury logs or stats for rookies).
+Injury data may be inconsistently reported or lack severity ratings.
+Position-Specific Data Gaps:
+Some variables (e.g., sacks or receptions) are only applicable to certain roles.
+Potential Biases:
+Players with longer careers naturally accumulate more stats, which could skew results if not normalized.
+Cleaning & Sampling:
+Original datasets range from 8,000 to 80,000 rows. After cleaning a refined sample of 1,000 players is expected to be analyzed.
 
 
 ```{r}
