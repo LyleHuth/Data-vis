@@ -20,10 +20,22 @@ library(dplyr)
 library(knitr)
 library(skimr)
 ```
-##Introduction 
+## Introduction 
 In this Data report we use data from seven different datasets, they look at a player's career statistics by season at each relevent position, their indivual stats including their height, weight, and years played in the NFL. Lastly their reported injuries over the years.
 
-*Gonna install some kind of cover image here to go with our report
+<!--
+This is just like a cover image thing can try and find a better one just put it in for now
+-->
+```{r}
+download.file("https://pbs.twimg.com/media/EsnCaDaW4AEdai2?format=jpg&name=medium", 
+              destfile = "funny_meme.jpg", 
+              mode = "wb")
+library(jpeg)
+img <- readJPEG("funny_meme.jpg")
+par(mar = c(0, 0, 0, 0))  
+plot(1:2, type = "n", xlab = "", ylab = "", axes = FALSE)  
+rasterImage(img, 1, 1, 2, 2) 
+```
 
 Main Research Question:
 
@@ -37,12 +49,12 @@ How does a player's physical build within a given position influence their susce
 
 These questions offer a clear framework for analyzing our large dataset, helping us uncover trends in player health and their ability to sustain long-term careers in the NFL.
 
-##Data
-1. Overview
+## Data
+#### 1. Overview
 This analysis is based on seven .csv datasets related to NFL player careers and injuries. Five of the datasets provide season-by-season statistics for players at key positions: quarterback, running back, wide receiver, defensive player, and punter. The sixth dataset contains player background information, including height, weight, and total years played in the NFL. The seventh and final dataset includes reported injury records spanning several years.
-2. Source
+#### 2. Source
 The data was collected by the NFL and its official analytics partner, Next Gen Stats, using comprehensive tracking and recording systems. These datasets represent an exhaustive sample of NFL players throughout the league’s history. 
-3. Variables & Descriptions
+#### 3. Variables & Descriptions
 
 | Variable         | Description                                | Units          | Type                          |
 |------------------|--------------------------------------------|----------------|-------------------------------|
@@ -66,7 +78,7 @@ The data was collected by the NFL and its official analytics partner, Next Gen S
 | injury_duration  | Games/weeks missed due to injury           | games/weeks    | Numeric                       |
 Note: Not all players have values for every stat (e.g., QBs don’t have punt stats). Some variables are position-specific.
 
-4. Key Characteristics
+#### 4. Key Characteristics
 Time Period: 
 - Covers multiple seasons of the NFL,spanning from the early 2000s to recent years.
 Players Included: Thousands of NFL athletes across all positions, from quarterbacks to punters.
@@ -74,14 +86,14 @@ Notable Features:
 - Large variability in career length, especially between high-contact positions (e.g., RBs) and specialists (e.g., kickers, punters).
 Significant differences in injury patterns across positions and body builds.
 
-5. Why Was This Data Collected?
+#### 5. Why Was This Data Collected?
 Purpose of Collection:
 - Data gathered by the NFL and Next Gen Stats to monitor and evaluate player performance, health, and career progression.
 Statistical Use Case:
 - Enables analysis of injury risk, career longevity, and position-specific physical demands.
 Useful for machine learning models predicting injury likelihood or career length based on physical build and position.
 
-6. Limitations & Considerations
+#### 6. Limitations & Considerations
 Missing Data:
 - Null or missing values (e.g., incomplete injury logs or stats for rookies).
 Injury data may be inconsistently reported or lack severity ratings.
@@ -92,6 +104,7 @@ Players with longer careers naturally accumulate more stats, which could skew re
 Cleaning & Sampling:
 Original datasets range from 8,000 to 80,000 rows. After cleaning a refined sample of 1,000 players is expected to be analyzed.
 
+## Exploratory data analysis
 
 ```{r}
 file_list <- list.files(path = "2430_csv_files", pattern = "*.csv", full.names = TRUE)
