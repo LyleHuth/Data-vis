@@ -42,22 +42,25 @@ These questions offer a clear framework for analyzing our large dataset, helping
 This analysis is based on seven .csv datasets related to NFL player careers and injuries. Five of the datasets provide season-by-season statistics for players at key positions: quarterback, running back, wide receiver, defensive player, and punter. The sixth dataset contains player background information, including height, weight, and total years played in the NFL. The seventh and final dataset includes reported injury records spanning several years.
 2. Source
 The data was collected by the NFL and its official analytics partner, Next Gen Stats, using comprehensive tracking and recording systems. These datasets represent an exhaustive sample of NFL players throughout the league’s history. 
-3. Variables and Types
+3. Variables & Descriptions
 
-Categorical Variables:
-Position – Player role on the team (e.g., quarterback, running back, wide receiver, defensive player, punter).
-Injury Designation – The type or location of the injury (e.g., knee, shoulder, concussion).
-Defensive Play Type – Categorized types of defensive plays (e.g., sacks, interceptions, tackles).
-Quantitative Variables:
-Passing Yards & Attempts – Number of yards gained and attempts made (yards).
-Rushing Yards & Attempts – Number of rushing yards and rushing attempts (yards).
-Kicking Yards & Attempts – Total yards and attempts from punts or field goals (yards).
-Height – Player height (feet).
-Weight – Player weight (pounds).
-Career Length – Total seasons played in the NFL (years).
-Injury Duration – Number of games missed due to injury (equivalent to weeks).
-Number of Observations
-Each dataset contains between 8,000 and 80,000 entries. After data cleaning (removing null or NaN values), we anticipate retaining at least 1,000 high-quality observations suitable for analysis.
+| Variable         | Description                                | Units          | Type                          |
+|------------------|--------------------------------------------|----------------|-------------------------------|
+| position         | Player's on-field role                     | –              | Categorical (QB, RB, WR, etc.)|
+| height           | Player height                              | feet + inches  | Numeric                       |
+| weight           | Player weight                              | pounds         | Numeric                       |
+| career_length    | Total seasons in NFL                       | years          | Numeric                       |
+| passing_yards    | Total passing yards (QBs)                  | yards          | Numeric (position-specific)   |
+| passing_attempts | Total passing attempts                     | count          | Numeric                       |
+| injury_duration  | Games/weeks missed due to injury           | games/weeks    | Numeric                       |
+| weight           | Player weight                              | pounds         | Numeric                       |
+| career_length    | Total seasons in NFL                       | years          | Numeric                       |
+| passing_yards    | Total passing yards (for QBs)              | yards          | Numeric (position-specific)   |
+| injury_type      | Body part or type of injury                | –              | Categorical                   |
+| injury_duration  | Games/weeks missed due to injury           | games/weeks    | Numeric        
+
+
+
 
 
 ```{r}
