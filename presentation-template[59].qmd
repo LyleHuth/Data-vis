@@ -32,8 +32,34 @@ library(here)
 - The data was collected by the **NFL** (National Football League) and its official analytics partner, **Next Gen Stats**, using comprehensive tracking and recording systems. These datasets are a massive sample of NFL players throughout the league’s history.
 
 ## Data slide 2
+ 
+CATEGORICAL:
+- Position (quarterback, running back, wide receiver, defensive player, punter)
+- Injury designation (body part injured)
+- Defensive play (sacks, interceptions, tackles)
 
-Show how many observations are in your dataset, the main variables that you are analyzing, and something about the scope of the data (levels of factors, years, range of variables)
+QUANTITATIVE:
+- passing yards + attempts
+- rushing yards + attempts
+- kicking yards + attempts
+- Height (ft)
+- Weight (lbs)
+- career length (seasons - equivalent to years)
+- length of injury (games - equivalent to weeks)
+
+## Data slide 3
+
+── Data Summary ────────────────────────
+                           Values
+Name                       data  
+Number of rows             17172 
+Number of columns          16    
+_______________________          
+Column type frequency:           
+  character                12    
+  numeric                  4     
+________________________         
+Group variables            None  
 
 
 ## Weight of a Player vs Injuries Sustained
