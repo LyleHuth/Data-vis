@@ -1,9 +1,10 @@
 ---
-title: "NFL Player Longevity Trends and Insights"
-author: "Lyle Huth and Callum Deveaux"
-date: "2025-04-16"
-output: html_document
-  theme: dark
+title: "NFL Player Longevity Trends and Insights by Position"
+author: "Lyle Huth & Callum Deveaux"
+date: "`r Sys.Date()`"
+output: output:
+  html_document:
+    theme: dark
     highlight: textmate
     toc: true
     toc_float: true
@@ -27,14 +28,12 @@ library(dplyr)
 library(knitr)
 library(skimr)
 library(jpeg)
-library(readr)
-library(janitor)
 ```
 ## Introduction 
 In this Data report we use data from seven different datasets, they look at a player's career statistics by season at each relevent position, their indivual stats including their height, weight, and years played in the NFL. Lastly their reported injuries over the years.
 
 ```{r}
-download.file("http://1.bp.blogspot.com/-YTwOa89A_x4/UvjzWi3rEQI/AAAAAAAABEI/WdVNCSvOmDI/s1600/Infographic_Bumps+&+Bruises.jpg", 
+download.file("https://pbs.twimg.com/media/EsnCaDaW4AEdai2?format=jpg&name=medium", 
               destfile = "funny_meme.jpg", 
               mode = "wb")
 library(jpeg)
@@ -44,23 +43,28 @@ plot(1:2, type = "n", xlab = "", ylab = "", axes = FALSE)
 rasterImage(img, 1, 1, 2, 2) 
 ```
 
-Main Research Question:
+**Main Research Question:**
 
-How do injuries impact the career length of NFL players, and are certain positions or player builds more prone to injury?
+1. **How do injuries impact the career length of NFL players, and are certain positions or player builds more prone to injury?**
 This question will be explored using various datasets that include information on player height, weight, position, and age.
 
-To go deeper into this topic, the following questions will also be looked at:
+To go deeper into this topic, the following questions will also be examined:
 
-How long do players typically last at each position, and what factors contribute to shorter careers?
-How does a player's physical build within a given position influence their susceptibility to injuries and, in comparison, their willingness to absorb contact?
+2. **What is the typical career length at each position, and which factors may be associated with reduced career longevity?**
+Additionally, it may be worth inspecting **how a player's physical build within a given position influences their susceptibility to injuries and, in comparison, their willingness to absorb contact?**
 
 These questions offer a clear framework for analyzing our large dataset, helping us uncover trends in player health and their ability to sustain long-term careers in the NFL.
 
 ## Data
+
 #### 1. Overview
-This analysis is based on seven .csv datasets related to NFL player careers and injuries. Five of the datasets provide season-by-season statistics for players at key positions: quarterback, running back, wide receiver, defensive player, and punter. The sixth dataset contains player background information, including height, weight, and total years played in the NFL. The seventh and final dataset includes reported injury records spanning several years.
-#### 2. Source
-The data was collected by the NFL and its official analytics partner, Next Gen Stats, using comprehensive tracking and recording systems. These datasets represent an exhaustive sample of NFL players throughout the league’s history. 
+
+This analysis is based on seven .csv datasets related to NFL player careers and injuries. **Five** of the datasets provide season-by-season statistics for players at **key positions:** quarterback, running back, wide receiver, defensive player, and kicker. The **sixth** dataset contains player background information, including **height, weight, and total years played** in the NFL. The **seventh** and final dataset includes **reported injury records** spanning several years.
+
+#### 2. Source & Collection
+
+The data was collected by the **NFL** (National Football League) and its official analytics partner, **Next Gen Stats**, using comprehensive tracking and recording systems. These datasets are a massive sample of NFL players throughout the league’s history. 
+
 #### 3. Variables & Descriptions
 
 | Variable         | Description                                | Units          | Type                          |
@@ -83,30 +87,34 @@ The data was collected by the NFL and its official analytics partner, Next Gen S
 | punt_yards       | Total punt yardage                         | yards          | Numeric                       |
 | injury_type      | Body part or type of injury                | –              | Categorical                   |
 | injury_duration  | Games/weeks missed due to injury           | games/weeks    | Numeric                       |
-Note: Not all players have values for every stat (e.g., QBs don’t have punt stats). Some variables are position-specific.
+Note: Not all players have values for every stat (e.g., QBs don’t have punt stats). Some variables are position-specific. Additionally, some values are missing/ not recorded (NaN).
 
 #### 4. Key Characteristics
-Time Period: 
-- Covers multiple seasons of the NFL,spanning from the early 2000s to recent years.
-Players Included: Thousands of NFL athletes across all positions, from quarterbacks to punters.
-Notable Features:
+
+**Time Period:**
+- The individual player stats by position have been recorded since 1924. However, our selected injury data includes more recent data, spanning 2009 through 2022.
+
+**Players Included:** Thousands of NFL athletes across all positions, from quarterbacks to punters, with varying years of experience.
+
+**Notable Features:**
 - Large variability in career length, especially between high-contact positions (e.g., RBs) and specialists (e.g., kickers, punters).
-Significant differences in injury patterns across positions and body builds.
+- Significant differences in injury patterns across positions and body builds.
 
 #### 5. Why Was This Data Collected?
-Purpose of Collection:
-- Data gathered by the NFL and Next Gen Stats to monitor and evaluate player performance, health, and career progression.
-Statistical Use Case:
-- Enables analysis of injury risk, career longevity, and position-specific physical demands.
-Useful for machine learning models predicting injury likelihood or career length based on physical build and position.
+
+**Purpose of Collection:**
+- Data gathered by the NFL and Next Gen Stats to monitor and evaluate player performance, health, and predict career progression. May also be used to create and enforce rules in the league (helmet-to-helmet contact prohibited) 
+**Statistical Use Case:**
+- Enables analysis of injury risk trends, career longevity, and position-specific physical demands.
+- Useful for machine learning models predicting injury likelihood or career length based on physical build and position.
 
 #### 6. Limitations & Considerations
-Missing Data:
+**Missing Data:**
 - Null or missing values (e.g., incomplete injury logs or stats for rookies).
 Injury data may be inconsistently reported or lack severity ratings.
 Position-Specific Data Gaps:
 - Some variables (e.g., sacks or receptions) are only applicable to certain roles.
-Potential Biases:
+**Potential Biases:**
 - Players with longer careers naturally accumulate more stats, which could skew results if not normalized.
 Cleaning & Sampling:
 - Original datasets range from 8,000 to 80,000 rows. After cleaning a refined sample of 1,000 players is expected to be analyzed.
@@ -132,70 +140,249 @@ career_punting <- my_data$career_punting
 career_receiving <- my_data$career_receiving
 career_rushing <- my_data$career_rushing
 injuries <- my_data$injuries
-
-glimpse(basic_stats)
-
 ```
 
-```{r}
-basic_stats_filtered <- basic_stats %>%
-  mutate(position_grouped = case_when(
-    Position %in% c("QB", "RB", "WR", "TE", "K") ~ Position,
-    Position %in% c("CB", "S", "LB", "ILB", "OLB", "SS", "FS", "DT", "DE", "DB", "NT", "DL") ~ "DEF",
-    TRUE ~ NA_character_
-  )) %>%
-  filter(!is.na(position_grouped))
+### Summary Table
 
-ggplot(basic_stats_filtered, aes(x = position_grouped)) +
-  geom_bar(fill = "steelblue") +
-  labs(title = "Player Count by Position",
-       x = "Position", y = "Number of Players") +
-  theme_minimal()
-```
-```{r}
+We create a summary table presenting the pertinent statistics, including the count (number of players), mean, median, minimum, and maximum. These statistics are revealed for our main two quantitative variables of interest; career length (career_length) and number of injured seasons (injury_seasons).
 
-basic_stats_cleaned <- basic_stats %>%
+```{r}
+summary_table <- basic_stats %>%
   mutate(
-    career_length = case_when(
-      str_detect(Experience, "Rookie") ~ 0, # If the experience is "rookie", meaning it is the player's first season, set their career length to zero.
-      TRUE ~ parse_number(Experience)
-    ), # Convert "Last, First" -> "First Last"
-    name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1")))
-  )
+    Experience_clean = ifelse(str_detect(Experience, "Rookie"), "0", Experience),
+    career_length = suppressWarnings(parse_number(Experience_clean)),
+    
+    name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1"))),
+    
+    position_grouped = case_when(
+      Position %in% c("CB", "S", "LB", "ILB", "OLB", "SS", "FS", "DT", "DE", "DB", "NT", "DL") ~ "DEF",
+      Position %in% c("QB", "RB", "WR", "TE", "K") ~ Position,
+      TRUE ~ NA_character_
+    )
+  ) %>%
 
-injury_seasons <- injuries %>%
-  mutate(name_clean = str_to_lower(str_trim(full_name))) %>%
-  group_by(name_clean) %>%
-  summarise(injury_seasons = n_distinct(season))
+  left_join(
+    injuries %>%
+      mutate(name_clean = str_to_lower(str_trim(full_name))) %>%
+      group_by(name_clean) %>%
+      summarise(injury_seasons = n_distinct(season)),
+    by = "name_clean"
+  ) %>%
 
-career_injury_comparison <- basic_stats_cleaned %>%
-  select(name_clean, career_length) %>%
-  left_join(injury_seasons, by = "name_clean") %>%
   mutate(
     injury_seasons = replace_na(injury_seasons, 0),
     career_length = replace_na(career_length, 0)
-  )
+  ) %>%
+  
+  filter(position_grouped %in% c("QB", "RB", "WR", "TE", "K", "DEF")) %>%
+  group_by(position_grouped) %>%
+  summarise(
+    Count = n(),
+    Mean_Career_Length = round(mean(career_length), 2),
+    Median_Career_Length = median(career_length),
+    Min_Career_Length = min(career_length),
+    Max_Career_Length = max(career_length),
+    Mean_Injury_Seasons = round(mean(injury_seasons), 2),
+    Median_Injury_Seasons = median(injury_seasons),
+    Min_Injury_Seasons = min(injury_seasons),
+    Max_Injury_Seasons = max(injury_seasons)
+  ) %>%
+  
+  mutate(position_grouped = factor(position_grouped, levels = c("QB", "RB", "WR", "TE", "K", "DEF"))) %>%
+  arrange(position_grouped)
 
-ggplot(career_injury_comparison, aes(x = career_length, y = injury_seasons)) +
-  geom_point(alpha = 0.6, color = "darkgreen") +
-  geom_smooth(method = "lm", se = FALSE, color = "firebrick") +
-  labs(
-    title = "Career Length vs Seasons with Reported Injuries",
-    x = "Career Length (Years)",
-    y = "Number of Seasons Injured"
-  ) +
-  theme_minimal()
-
-#Hmmm, regression is positive but logically that doesn't make much sense... how else could we show this? (box plot?)
+summary_table
 ```
+**Interpretation:** Summary table shows the count, mean, median, minimum, and maximum of of each position for career length and injured seasons. (e.g. mean career length ranges from 2.75 years for Wide Receivers to 5.89 years for Kickers).
+
+### Player Count at Each Position
+
+We will use a bar graph to show how the number of injuries suffered compare by position (QB, RB, WR, TE, K, DEF -> We group all defensive players into one quantitative variable called DEF). The number of injuries at each position are made proportional to each other such that the plot is not skewed (presumably a lot more players on defense incurring than each individual offensive position).
+
+[Data-visualization-1: Bar Graph of proportional injuries by position, Author=Lyle]
 
 ```{r}
-basic_stats_cleaned %>%
-  filter(career_length == 25) %>%
-  select(Name)
-# Morten Anderson - NFL record holder for games played, points (2544), and field goals (565).
-#Kicker
+player_positions <- basic_stats %>%
+  mutate(
+    name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1"))),
+    position_grouped = case_when(
+      Position %in% c("CB", "S", "LB", "ILB", "OLB", "SS", "FS", "DT", "DE", "DB", "NT", "DL") ~ "DEF",
+      Position %in% c("QB", "RB", "WR", "TE", "K") ~ Position,
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(position_grouped %in% c("QB", "RB", "WR", "TE", "K", "DEF")) %>%
+  distinct(name_clean, position_grouped)
+
+injury_counts <- injuries %>%
+  mutate(name_clean = str_to_lower(str_trim(full_name))) %>%
+  group_by(name_clean) %>%
+  summarise(total_injuries = n())
+
+injury_proportional <- player_positions %>%
+  left_join(injury_counts, by = "name_clean") %>%
+  mutate(total_injuries = replace_na(total_injuries, 0)) %>%
+  group_by(position_grouped) %>%
+  summarise(
+    total_players = n(),
+    total_injuries = sum(total_injuries),
+    injuries_per_player = total_injuries / total_players
+  ) %>%
+  mutate(position_grouped = factor(position_grouped, levels = c("QB", "RB", "WR", "TE", "K", "DEF")))
+
+ggplot(injury_proportional, aes(x = position_grouped, y = injuries_per_player, fill = position_grouped)) +
+  geom_col() +
+  labs(
+    title = "Average Injuries per Player by Position (2009-2022)",
+    x = "Position",
+    y = "Injuries per Player"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
 ```
+**Insight:** Kickers suffer far less injuries than other positions, averaging about 7 injuries in one player's career. Quarterbacks are also slightly below the average.
+
+### Weight of a Player vs Injuries Sustained
+
+We will use a scatterplot to visualize how a player's weight (lbs) affects there susceptibility to injury.
+
+[Data-visualization-2: scatterplot of weight vs total injuries]
+
+```{r}
+Weight <- basic_stats$Weight..lbs
+
+basic_stats_cleaned <- basic_stats %>%
+  mutate(
+    name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1"))),
+
+    weight_char = as.character(Weight),  
+    weight = as.numeric(str_extract(weight_char, "\\d+"))
+  )
+
+injury_counts <- injuries %>%
+  mutate(name_clean = str_to_lower(str_trim(full_name))) %>%
+  group_by(name_clean) %>%
+  summarise(total_injuries = n())
+
+weight_injury_data <- basic_stats_cleaned %>%
+  left_join(injury_counts, by = "name_clean") %>%
+  mutate(total_injuries = replace_na(total_injuries, 0)) %>%
+  filter(!is.na(weight), weight >= 100)
+
+ggplot(weight_injury_data, aes(x = weight, y = total_injuries)) +
+  geom_point(alpha = 0.5, color = "darkblue") +
+  annotate("rect",
+           xmin = 180, xmax = 270,
+           ymin = 15, ymax = 60,
+           fill = "red", alpha = 0.3, color = "darkred") +
+
+  labs(
+    title = "Player Weight vs Total Injuries",
+    x = "Weight (lbs)",
+    y = "Total Injuries"
+  ) +
+  theme_minimal()
+```
+**Insights:** Red rectangle shows the high volume of injuries in the 180-270 lb range. The 180-240 lb range is considered below the average of the league, implying lighter players tend to injure more frequently. This range is typically dominated by WRs, RBs, and QBs.
+
+### Average Career Length vs Average Seasons Injured by Position
+
+This bubble plot gives a clean comparison of a given position's career length to the average number of seasons that the players at that position spent injured. The size of each bubble is representative of the total number of players at that position.
+
+[Data-visualization-3: Bubble plot of average injured seasons by position compared to average career length of that position, Author=Lyle]
+
+```{r}
+position_summary <- basic_stats %>%
+  mutate(
+    name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1"))),
+    Experience_clean = ifelse(str_detect(Experience, "Rookie"), "0", Experience),
+    career_length = suppressWarnings(parse_number(Experience_clean)),
+    position_grouped = case_when(
+      Position %in% c("CB", "S", "LB", "ILB", "OLB", "SS", "FS", "DT", "DE", "DB", "NT", "DL") ~ "DEF",
+      Position %in% c("QB", "RB", "WR", "TE", "K") ~ Position,
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  left_join(
+    injuries %>%
+      mutate(name_clean = str_to_lower(str_trim(full_name))) %>%
+      distinct(name_clean, season) %>%
+      group_by(name_clean) %>%
+      summarise(injury_seasons = n()),
+    by = "name_clean"
+  ) %>%
+  mutate(
+    injury_seasons = replace_na(injury_seasons, 0),
+    career_length = replace_na(career_length, 0)
+  ) %>%
+  filter(position_grouped %in% c("QB", "RB", "WR", "TE", "K", "DEF")) %>%
+  group_by(position_grouped) %>%
+  summarise(
+    avg_career_length = mean(career_length),
+    avg_injury_seasons = mean(injury_seasons),
+    total_players = n()
+  )
+
+ggplot(position_summary, aes(x = avg_injury_seasons, y = avg_career_length, size = total_players, color = position_grouped)) +
+  geom_point(alpha = 0.8) +
+  scale_size_continuous(range = c(5, 15)) +
+  labs(
+    title = "Avg Injuries vs Career Length by Position",
+    x = "Avg Injury Seasons per Player",
+    y = "Avg Career Length (Years)",
+    color = "Position",
+    size = "Total Players"
+  ) +
+  theme_minimal()
+```
+**Key Insights:** 
+- Despite Wide Receivers having the shortest average career length, they suffer the second fewest amount of injuries. 
+- As suspected, being a Kicker in the NFL is the safest position as they experience the fewest injuries and have the longest career length.
+- Unexpectedly, Tight Ends experience the highest average injury seasons, but have an average career length.
+
+### Influence of Weight on Injury Vulnerability
+
+This boxplot compares players greater than 300 lbs to players less than 200 lbs by the count of injuries sustained. Kickers and Punters not including as those positions are expected to skew the results based on previous plots.
+
+[Data-visualization-4: Comparison of total sustained injuries of light (< 200 lbs) vs heavy (> 300 lbs) players, Author=Callum]
+
+```{r}
+injury_counts <- injuries %>%
+  mutate(name_clean = str_to_lower(str_trim(full_name))) %>%
+  group_by(name_clean) %>%
+  summarise(total_injuries = n())
+
+weight_data_extreme_filtered <- basic_stats %>%
+  mutate(
+    name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1"))),
+    weight = as.numeric(str_extract(as.character(Weight), "\\d+"))
+  ) %>%
+  left_join(injury_counts, by = "name_clean") %>%
+  mutate(
+    total_injuries = replace_na(total_injuries, 0),
+    weight_group = case_when(
+      weight < 200 & !(Position %in% c("K", "P")) ~ "< 200 lbs (non-K/P)",
+      weight > 300 ~ "> 300 lbs",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(weight_group), total_injuries > 0)
+
+ggplot(weight_data_extreme_filtered, aes(x = weight_group, y = total_injuries, fill = weight_group)) +
+  geom_boxplot(alpha = 0.7, outlier.alpha = 0.2) +
+  coord_cartesian(ylim = c(0, 30)) +
+  labs(
+    title = "Total Injuries: ",
+    subtitle = "<200 lbs (Excluding K/P) vs >300 lbs",
+    x = "Weight Group",
+    y = "Total Injuries",
+    fill = "Weight Group"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+**Insight:** Very similar, if anything larger players are more frequently injured.
+
 ### Age by position and weight
 Final vizualization is a scatter plot illustrates the relationship between player age and weight, with a linear regression line fitted for each group categorized by side of the ball.
 [Visualization 5: Multiple Linear Regression of Age vs. Weight, Grouped by Player Role (Offense, Defense, Special Teams) Author =Callum]
@@ -209,9 +396,9 @@ all_data %>%
 all_data <- all_data %>%
   mutate(
     side_of_ball = case_when(
-      position.x %in% c("QB", "RB", "FB", "WR", "TE", "OL", "C", "G", "T") ~ "Offense",
-      position.x %in% c("DE", "DT", "LB", "OLB", "ILB", "MLB", "CB", "DB", "FS", "SS", "NT", "SAF", "EDGE") ~ "Defense",
-      position.x %in% c("K", "P", "LS") ~ "Special Teams",
+      position %in% c("QB", "RB", "FB", "WR", "TE", "OL", "C", "G", "T") ~ "Offense",
+      position %in% c("DE", "DT", "LB", "OLB", "ILB", "MLB", "CB", "DB", "FS", "SS", "NT", "SAF", "EDGE") ~ "Defense",
+      position %in% c("K", "P", "LS") ~ "Special Teams",
       TRUE ~ "Unknown"
     )
   )
@@ -240,56 +427,5 @@ ggplot(all_data %>% filter(side_of_ball != "Unknown"),
   ) +
   theme_minimal()
 ```
-#### Key Insights 
+**Key Insights:**
 Age trends by weight reveal that defensive players are generally younger and don't last as long, offensive players fall in the middle, and special teams players—especially lighter ones—can remain active at older ages.
-
-
-## Final Answers to Research Questions
-#### Primary Questions:
-- Scatter Plot (Injury Count vs. Career Length): Shows correlation between total injuries and career length, helping identify whether higher injury counts are associated with shorter careers.
-- Box Plot by Position (Career Length): Compares distributions of career length across different positions to show which roles tend to have shorter careers.
-- Bar Graph (Average Injuries by Position): Highlights which positions are most injury-prone.
-
-#### Secondary Questions:
-- Summary Table (Position vs. Average Career Length, Age at Retirement): Provides clear numerical benchmarks for average longevity at each position.
-- Bubble Plot (Position, Injury Rate, and Career Length): A multivariate view showing how career length interacts with injury rate and potentially body size.
-- Histogram (Career Length Distribution per Position): Offers a more granular view of how long players tend to last at each spot.
-
-- Scatter Plot (Height/Weight vs. Injury Count by Position): Visualizes whether certain body types are more frequently injured within the same position.
-- Box Plot (Weight/Height Distribution within Positions): Helps assess the typical range of builds per position and compare injured vs. non-injured groups.
-- Regression Plot (Physical Attributes vs. Career Length or Injury Count): Helps isolate whether bigger/heavier players are more or less likely to sustain injuries.
-
-#### Unexpected Finding:
-- Bubble Plot Insight: Wide receivers, while having the shortest average career length, showed the second-lowest average number of injuries per season highlighting a unique balance between high positional turnover and relatively lower injury frequency.
-
-## Discussion 
-
-
-
-
-## Conclusion 
-This study examined how injuries influence the career length of NFL players, with a focus on positional differences and the role of physical attributes. Key findings include:
-
-- Certain positions, particularly those with high-contact roles like running back and linebacker, are associated with shorter average career spans, often due to greater injury exposure.
-- Player build (height and weight) appears to influence injury risk within positions, suggesting that even small variations in physical profile can affect long-term durability.
-- Preliminary analyses revealed patterns that point to a tradeoff between physical resilience and positional demands, especially in roles requiring frequent high-impact contact.
-
-#### Future research directions:
-- Incorporate more granular injury data ( severity, frequency) to better isolate injury-related career outcomes.-
-Explore machine learning clustering methods (k-means, hierarchical) to identify at-risk player archetypes based on physical and positional profiles.
-
-## References
-
-
-## Team work 
-- Lyle was responsible for data cleaning and  created three visualizations: a bubble plot, bar graph, and scatter plot, as well as a summary table.
-- Callum handled the data analysis, developed the overall structure of the report, and created two visualizations: a box plot and a scatter plot with regression lines.
-
-
-
-
-
-
-
-
-
