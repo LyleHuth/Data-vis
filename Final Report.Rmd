@@ -450,6 +450,20 @@ Age trends by weight reveal that defensive players are generally younger and don
 
 ## Discussion 
 
+1. Age and Weight by Position
+- Defensive players tend to be younger across most weight classes, suggesting shorter careers or faster physical decline.
+- Offensive players fall in the middle, showing a broader spread of ages at similar weights.
+- Special teams players, especially lighter ones like kickers and punters, can remain active into much older ages, likely due to reduced physical contact and less wear-and-tear.
+
+2. Injury Vulnerability and Body Size
+- A boxplot comparing light (<200 lbs) and heavy (>300 lbs) players found similar injury counts between the two groups. If anything, heavier players were slightly more prone to injuries, suggesting size alone isn't a protective factor.
+- A scatterplot of weight vs. total injuries revealed a concentration of injuries in the 180–270 lb range, which generally includes wide receivers, running backs, and quarterbacks—roles requiring speed and high mobility. These positions may face higher in-game exposure to hits despite being lighter.
+- A bar graph of proportional injuries by position confirmed that kickers and quarterbacks suffer fewer injuries than most, with kickers averaging just 7 injuries across their careers, likely due to limited physical engagement during play.
+
+3. Position, Career Length, and Injury Burden
+- Wide receivers had the shortest careers, but interestingly ranked second lowest in injury burden.
+- Tight ends experienced the highest average injury seasons, yet maintained average career lengths, possibly due to their dual roles in blocking and receiving, increasing exposure to contact.
+- Kickers once again emerged as outliers, enjoying long, injury-free careers, reinforcing earlier findings.
 
 ## Conclusion 
 This study examined how injuries influence the career length of NFL players, with a focus on positional differences and the role of physical attributes. Key findings include:
