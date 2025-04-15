@@ -278,10 +278,10 @@ This study examined how injuries influence the career length of NFL players, wit
 - Incorporate more granular injury data ( severity, frequency) to better isolate injury-related career outcomes.-
 Explore machine learning clustering methods (k-means, hierarchical) to identify at-risk player archetypes based on physical and positional profiles.
 
-##References
+## References
 
 
-##Team work 
+## Team work 
 - Lyle was responsible for data cleaning and contributed significantly by creating three visualizations: a bubble plot, bar graph, and scatter plot, as well as a comprehensive summary table.
 - Callum handled the data analysis, developed the overall structure of the report, and created two visualizations: a box plot and a scatter plot with regression lines.
 
