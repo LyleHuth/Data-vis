@@ -10,6 +10,7 @@ format:
     font-family: "Arial"  
     slide-number: true  
 ---
+https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfVNgPfg0GH_V7nfe57EzTmT9BpUy6jukgPw&s
 
 ```{r include=FALSE, messages=FALSE, warning=FALSE}
 library(tidyverse)
