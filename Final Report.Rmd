@@ -1,7 +1,7 @@
 ---
 title: "NFL Player Longevity Trends and Insights"
-author: "Lyle Huth"
-date: "`r Sys.Date()`"
+author: "Lyle Huth and Callum Deveaux"
+date: "2025-04-16"
 output: html_document
 ---
 
