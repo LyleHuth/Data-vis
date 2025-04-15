@@ -140,6 +140,44 @@ ggplot(position_summary, aes(x = avg_injury_seasons, y = avg_career_length, size
 
 ## Slide With Plot 3
 
+```{r}
+all_data <- my_data$basic_stats
+
+all_data <- my_data$basic_stats %>%
+  mutate(
+    name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1"))),
+    position = Position,
+    weight_lbs = as.numeric(str_extract(as.character(Weight), "\\d+")),
+    age = as.numeric(str_extract(as.character(Age), "\\d+")),
+    side_of_ball = case_when(
+      position %in% c("QB", "RB", "FB", "WR", "TE", "OL", "C", "G", "T") ~ "Offense",
+      position %in% c("DE", "DT", "LB", "OLB", "ILB", "MLB", "CB", "DB", "FS", "SS", "NT", "SAF", "EDGE") ~ "Defense",
+      position %in% c("K", "P", "LS") ~ "Special Teams",
+      TRUE ~ "Unknown"
+    )
+  ) %>%
+  filter(
+    !is.na(age), !is.na(weight_lbs),
+    age < 45,
+    weight_lbs >= 150, weight_lbs <= 400,
+    side_of_ball != "Unknown"
+  )
+
+ggplot(all_data %>% filter(side_of_ball != "Unknown"), 
+       aes(x = weight_lbs, y = Age, color = side_of_ball)) +
+  geom_jitter(width = 5, height = 0.3, alpha = 0.5, size = 2) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  facet_wrap(~ side_of_ball) +
+  scale_color_manual(values = c("Offense" = "light green", "Defense" = "red", "Special Teams" = "blue")) +
+  labs(
+    title = "Age vs. Weight by Side of Ball",
+    x = "Weight (lbs)",
+    y = "Age",
+    color = "Side of Ball"
+  ) +
+  theme_minimal()
+```
+
 In a series of 2-3 slides show a sequence of visualizations that explain something you learned from your analysis. You don't need to show everything, but what you do show should be easily understood in a short presentation. Change the title of the slide to be a title for your visualization.
 
 
