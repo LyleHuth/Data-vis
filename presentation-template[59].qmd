@@ -110,9 +110,27 @@ ggplot(weight_injury_data, aes(x = weight, y = total_injuries)) +
   ) +
   theme_minimal()
 ```
+```{r, include=TRUE, echo=FALSE}
+download.file(```{r, include=TRUE, echo=FALSE}
+download.file(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJMXM2TWT8BuSv6CN4tb4OhJqBbdEwdaUYaA&s,
+              destfile = "intro.jpg", 
+              mode = "wb")
+library(jpeg)
+img <- readJPEG("intro.jpg")
+par(mar = c(0, 0, 0, 0))  
+plot(1:2, type = "n", xlab = "", ylab = "", axes = FALSE)  
+rasterImage(img, 1, 1, 2, 2)
+```,
+              destfile = "intro.jpg", 
+              mode = "wb")
+library(jpeg)
+img <- readJPEG("intro.jpg")
+par(mar = c(0, 0, 0, 0))  
+plot(1:2, type = "n", xlab = "", ylab = "", axes = FALSE)  
+rasterImage(img, 1, 1, 2, 2)
+```
 
 ## Average Career Length vs Average Seasons Injured by Position
-
 
 position_summary <- basic_stats %>%
   mutate(
