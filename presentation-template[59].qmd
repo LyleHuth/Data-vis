@@ -1,0 +1,110 @@
+---
+title: "A review of data visualizations"
+author: "Philippe Fullsack and Albert Einstain"
+date: "2025-03-09"
+format:
+  revealjs:
+    self-contained: true
+    theme: dark  
+    background-color: "black"  
+    font-family: "Arial"  
+    slide-number: true  
+---
+
+<!--
+
+evaluation
+
+Project goals     2
+Data description  2
+Visualizations    3
+Summary           2
+Quality of visual aids (slides) 1
+
+-->
+
+```{r include=FALSE, messages=FALSE, warning=FALSE}
+library(tidyverse)
+library(here)
+# my_data <- read_csv(here("data", "my-data.csv"))
+```
+
+## Goals
+
+Describe your goals for the visualization project in a few bullet points. This will help the viewer make sense of what you are about to do.
+
+For more details on authoring R presentations please visit this [tutorial](https://quarto.org/docs/presentations/revealjs/).
+
+Also see the course notes and the Task on presentations.
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Data slide 1
+
+Introduce your data here. According to the needs of your presentation, tell us the subject of the data (CO2, economic development, olympic sports, etc.). If relevant to your analysis, indicate when, how, why, or by who the data were collected.
+
+## Data slide 2
+
+Show how many observations are in your dataset, the main variables that you are analyzing, and something about the scope of the data (levels of factors, years, range of variables)
+
+
+## Slide With Plot 1
+
+In a series of 2-3 slides show a sequence of visualizations that explain something you learned from your analysis. You don't need to show everything, but what you do show should be easily understood in a short presentation. Change the title of the slide to be a title for your visualization.
+
+```{r echo=FALSE, out.height="50%", fig.align="center"}
+mpg |> ggplot(aes(displ, cty)) + geom_point() + theme_bw() + theme(text=element_text(size=24))
+Weight <- basic_stats$Weight..lbs
+
+basic_stats_cleaned <- basic_stats %>%
+  mutate(
+    name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1"))),
+
+    weight_char = as.character(Weight),  
+    weight = as.numeric(str_extract(weight_char, "\\d+"))
+  )
+
+injury_counts <- injuries %>%
+  mutate(name_clean = str_to_lower(str_trim(full_name))) %>%
+  group_by(name_clean) %>%
+  summarise(total_injuries = n())
+
+weight_injury_data <- basic_stats_cleaned %>%
+  left_join(injury_counts, by = "name_clean") %>%
+  mutate(total_injuries = replace_na(total_injuries, 0)) %>%
+  filter(!is.na(weight), weight >= 100)
+
+ggplot(weight_injury_data, aes(x = weight, y = total_injuries)) +
+  geom_point(alpha = 0.5, color = "darkblue") +
+  annotate("rect",
+           xmin = 180, xmax = 270,
+           ymin = 15, ymax = 60,
+           fill = "red", alpha = 0.3, color = "darkred") +
+
+  labs(
+    title = "Player Weight vs Total Injuries",
+    x = "Weight (lbs)",
+    y = "Total Injuries"
+  ) +
+  theme_minimal()
+```
+
+## Slide With Plot 2
+
+In a series of 2-3 slides show a sequence of visualizations that explain something you learned from your analysis. You don't need to show everything, but what you do show should be easily understood in a short presentation. Change the title of the slide to be a title for your visualization.
+
+
+## Slide With Plot 3
+
+In a series of 2-3 slides show a sequence of visualizations that explain something you learned from your analysis. You don't need to show everything, but what you do show should be easily understood in a short presentation. Change the title of the slide to be a title for your visualization.
+
+
+## Conclusion
+
+Summarize what you learned, mirroring the goals from slide 1
+
+You can add more slides and change the titles of slides as necessary. Your presentation should be between 5 and 10 minutes long when recorded.
+
+**Delete all the instructions when you are done!**
