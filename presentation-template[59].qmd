@@ -31,6 +31,16 @@ library(here)
 
 - The data was collected by the **NFL** (National Football League) and its official analytics partner, **Next Gen Stats**, using comprehensive tracking and recording systems. These datasets are a massive sample of NFL players throughout the league’s history.
 
+```{r, include=TRUE, echo=FALSE}
+download.file(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJMXM2TWT8BuSv6CN4tb4OhJqBbdEwdaUYaA&s,
+              destfile = "intro.jpg", 
+              mode = "wb")
+library(jpeg)
+img <- readJPEG("intro.jpg")
+par(mar = c(0, 0, 0, 0))  
+plot(1:2, type = "n", xlab = "", ylab = "", axes = FALSE)  
+rasterImage(img, 1, 1, 2, 2)
+```
 ## Data slide 2
  
 CATEGORICAL:
