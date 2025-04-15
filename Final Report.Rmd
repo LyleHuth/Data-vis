@@ -33,14 +33,14 @@ library(jpeg)
 In this Data report we use data from seven different datasets, they look at a player's career statistics by season at each relevent position, their indivual stats including their height, weight, and years played in the NFL. Lastly their reported injuries over the years.
 
 ```{r}
-download.file("https://pbs.twimg.com/media/EsnCaDaW4AEdai2?format=jpg&name=medium", 
+download.file("http://1.bp.blogspot.com/-YTwOa89A_x4/UvjzWi3rEQI/AAAAAAAABEI/WdVNCSvOmDI/s1600/Infographic_Bumps+&+Bruises.jpg", 
               destfile = "funny_meme.jpg", 
               mode = "wb")
 library(jpeg)
 img <- readJPEG("funny_meme.jpg")
 par(mar = c(0, 0, 0, 0))  
 plot(1:2, type = "n", xlab = "", ylab = "", axes = FALSE)  
-rasterImage(img, 1, 1, 2, 2) 
+rasterImage(img, 1, 1, 2, 2)
 ```
 
 **Main Research Question:**
@@ -429,3 +429,42 @@ ggplot(all_data %>% filter(side_of_ball != "Unknown"),
 ```
 **Key Insights:**
 Age trends by weight reveal that defensive players are generally younger and don't last as long, offensive players fall in the middle, and special teams players—especially lighter ones—can remain active at older ages.
+
+## Final Answers to Research Questions
+#### Primary Questions:
+- Scatter Plot (Injury Count vs. Career Length): Shows correlation between total injuries and career length, helping identify whether higher injury counts are associated with shorter careers.
+- Box Plot by Position (Career Length): Compares distributions of career length across different positions to show which roles tend to have shorter careers.
+- Bar Graph (Average Injuries by Position): Highlights which positions are most injury-prone.
+
+#### Secondary Questions:
+- Summary Table (Position vs. Average Career Length, Age at Retirement): Provides clear numerical benchmarks for average longevity at each position.
+- Bubble Plot (Position, Injury Rate, and Career Length): A multivariate view showing how career length interacts with injury rate and potentially body size.
+- Histogram (Career Length Distribution per Position): Offers a more granular view of how long players tend to last at each spot.
+
+- Scatter Plot (Height/Weight vs. Injury Count by Position): Visualizes whether certain body types are more frequently injured within the same position.
+- Box Plot (Weight/Height Distribution within Positions): Helps assess the typical range of builds per position and compare injured vs. non-injured groups.
+- Regression Plot (Physical Attributes vs. Career Length or Injury Count): Helps isolate whether bigger/heavier players are more or less likely to sustain injuries.
+
+#### Unexpected Finding:
+- Bubble Plot Insight: Wide receivers, while having the shortest average career length, showed the second-lowest average number of injuries per season highlighting a unique balance between high positional turnover and relatively lower injury frequency.
+
+## Discussion 
+
+
+## Conclusion 
+This study examined how injuries influence the career length of NFL players, with a focus on positional differences and the role of physical attributes. Key findings include:
+
+- Certain positions, particularly those with high-contact roles like running back and linebacker, are associated with shorter average career spans, often due to greater injury exposure.
+- Player build (height and weight) appears to influence injury risk within positions, suggesting that even small variations in physical profile can affect long-term durability.
+- Preliminary analyses revealed patterns that point to a tradeoff between physical resilience and positional demands, especially in roles requiring frequent high-impact contact.
+
+#### Future research directions:
+- Incorporate more granular injury data ( severity, frequency) to better isolate injury-related career outcomes.-
+- Explore machine learning clustering methods (k-means, hierarchical) to identify at-risk player archetypes based on physical and positional profiles.
+
+## References
+
+
+## Team work 
+- Lyle was responsible for data cleaning and contributed significantly by creating three visualizations: a bubble plot, bar graph, and scatter plot, as well as a comprehensive summary table.
+- Callum handled the data analysis, developed the overall structure of the report, and created two visualizations: a box plot and a scatter plot with regression lines.
