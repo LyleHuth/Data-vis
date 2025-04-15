@@ -11,18 +11,6 @@ format:
     slide-number: true  
 ---
 
-<!--
-
-evaluation
-
-Project goals     2
-Data description  2
-Visualizations    3
-Summary           2
-Quality of visual aids (slides) 1
-
--->
-
 ```{r include=FALSE, messages=FALSE, warning=FALSE}
 library(tidyverse)
 library(here)
@@ -31,28 +19,24 @@ library(here)
 
 ## Goals
 
-Describe your goals for the visualization project in a few bullet points. This will help the viewer make sense of what you are about to do.
+- Identify Role-Based Age and Weight Trends: Use the scatterplot with regression lines to visualize how player age varies by weight across offense, defense, and special teams, revealing differences in career longevity and physical demands by role.
 
-For more details on authoring R presentations please visit this [tutorial](https://quarto.org/docs/presentations/revealjs/).
+-Highlight Career Longevity vs. Injury Burden: Leverage the bubble plot to compare average career length and injury seasons by position, emphasizing how some roles (like kickers) are safer and more enduring than others (like tight ends).
 
-Also see the course notes and the Task on presentations.
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
+-Expose Patterns Linking Physical Attributes to Risk: Together, the plots aim to uncover how physical characteristics and player roles correlate with career outcomes, helping explain why some athletes last longer or face greater injury risks.
 
 ## Data slide 1
 
-Introduce your data here. According to the needs of your presentation, tell us the subject of the data (CO2, economic development, olympic sports, etc.). If relevant to your analysis, indicate when, how, why, or by who the data were collected.
+- This analysis is based on seven .csv datasets related to NFL player careers and injuries. **Five** of the datasets provide season-by-season statistics for players at **key positions: ** quarterback, running back, wide receiver, defensive player, and kicker. The **sixth** dataset contains player background information, including **height, weight, and total years played** in the NFL. The **seventh** and final dataset includes **reported injury records** spanning several years.
+
+- The data was collected by the **NFL** (National Football League) and its official analytics partner, **Next Gen Stats**, using comprehensive tracking and recording systems. These datasets are a massive sample of NFL players throughout the league’s history.
 
 ## Data slide 2
 
 Show how many observations are in your dataset, the main variables that you are analyzing, and something about the scope of the data (levels of factors, years, range of variables)
 
 
-## Slide With Plot 1
-
-In a series of 2-3 slides show a sequence of visualizations that explain something you learned from your analysis. You don't need to show everything, but what you do show should be easily understood in a short presentation. Change the title of the slide to be a title for your visualization.
+## Weight of a Player vs Injuries Sustained
 
 ```{r echo=FALSE, out.height="50%", fig.align="center"}
 mpg |> ggplot(aes(displ, cty)) + geom_point() + theme_bw() + theme(text=element_text(size=24))
@@ -91,9 +75,8 @@ ggplot(weight_injury_data, aes(x = weight, y = total_injuries)) +
   theme_minimal()
 ```
 
-## Slide With Plot 2
+## Average Career Length vs Average Seasons Injured by Position
 
-In a series of 2-3 slides show a sequence of visualizations that explain something you learned from your analysis. You don't need to show everything, but what you do show should be easily understood in a short presentation. Change the title of the slide to be a title for your visualization.
 
 position_summary <- basic_stats %>%
   mutate(
@@ -138,7 +121,7 @@ ggplot(position_summary, aes(x = avg_injury_seasons, y = avg_career_length, size
   ) +
   theme_minimal()
 
-## Slide With Plot 3
+## Influence of Weight on Injury Vulnerability
 
 ```{r}
 all_data <- my_data$basic_stats
@@ -178,13 +161,12 @@ ggplot(all_data %>% filter(side_of_ball != "Unknown"),
   theme_minimal()
 ```
 
-In a series of 2-3 slides show a sequence of visualizations that explain something you learned from your analysis. You don't need to show everything, but what you do show should be easily understood in a short presentation. Change the title of the slide to be a title for your visualization.
-
-
 ## Conclusion
 
-Summarize what you learned, mirroring the goals from slide 1
+- Player roles strongly influence physical profiles and longevity—defensive players tend to be younger and heavier, while special teams players can maintain careers at older ages despite being lighter.
 
-You can add more slides and change the titles of slides as necessary. Your presentation should be between 5 and 10 minutes long when recorded.
+- Career length and injury risk vary widely by position—for example, kickers enjoy long, low-risk careers, while tight ends face the highest injury burden despite average longevity.
 
-**Delete all the instructions when you are done!**
+- Physical traits like weight play a key role in injury patterns—lighter players, especially in the 180–240 lb range, are more prone to injuries, particularly those in high-contact positions like wide receivers and running backs.
+
+
