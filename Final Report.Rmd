@@ -463,6 +463,7 @@ This study examined how injuries influence the career length of NFL players, wit
 - Explore machine learning clustering methods (k-means, hierarchical) to identify at-risk player archetypes based on physical and positional profiles.
 
 ## References
+https://www.txortho.com/the-most-commonly-injured-body-part-by-nfl-players-is/
 
 
 ## Team work 
