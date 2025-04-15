@@ -26,9 +26,6 @@ library(janitor)
 ## Introduction 
 In this Data report we use data from seven different datasets, they look at a player's career statistics by season at each relevent position, their indivual stats including their height, weight, and years played in the NFL. Lastly their reported injuries over the years.
 
-<!--
-This is just like a cover image thing can try and find a better one just put it in for now
--->
 ```{r}
 download.file("https://pbs.twimg.com/media/EsnCaDaW4AEdai2?format=jpg&name=medium", 
               destfile = "funny_meme.jpg", 
