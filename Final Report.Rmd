@@ -282,7 +282,7 @@ Explore machine learning clustering methods (k-means, hierarchical) to identify 
 
 
 ## Team work 
-- Lyle was responsible for data cleaning and contributed significantly by creating three visualizations: a bubble plot, bar graph, and scatter plot, as well as a comprehensive summary table.
+- Lyle was responsible for data cleaning and  created three visualizations: a bubble plot, bar graph, and scatter plot, as well as a summary table.
 - Callum handled the data analysis, developed the overall structure of the report, and created two visualizations: a box plot and a scatter plot with regression lines.
 
 
