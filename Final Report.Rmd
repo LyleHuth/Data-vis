@@ -3,6 +3,13 @@ title: "NFL Player Longevity Trends and Insights"
 author: "Lyle Huth and Callum Deveaux"
 date: "2025-04-16"
 output: html_document
+  theme: dark
+    highlight: textmate
+    toc: true
+    toc_float: true
+    fig_width: 9.67
+    fig_height: 6
+    fig_caption: true
 ---
 
 ```{r setup, include=FALSE}
