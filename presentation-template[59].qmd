@@ -95,6 +95,48 @@ ggplot(weight_injury_data, aes(x = weight, y = total_injuries)) +
 
 In a series of 2-3 slides show a sequence of visualizations that explain something you learned from your analysis. You don't need to show everything, but what you do show should be easily understood in a short presentation. Change the title of the slide to be a title for your visualization.
 
+position_summary <- basic_stats %>%
+  mutate(
+name_clean = str_to_lower(str_trim(str_replace(Name, "^(.*),\\s*(.*)$", "\\2 \\1"))),
+    Experience_clean = ifelse(str_detect(Experience, "Rookie"), "0", Experience),
+    career_length = suppressWarnings(parse_number(Experience_clean)),
+    position_grouped = case_when(
+      Position %in% c("CB", "S", "LB", "ILB", "OLB", "SS", "FS", "DT", "DE", "DB", "NT", "DL") ~ "DEF",
+      Position %in% c("QB", "RB", "WR", "TE", "K") ~ Position,
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  left_join(
+    injuries %>%
+      mutate(name_clean = str_to_lower(str_trim(full_name))) %>%
+      distinct(name_clean, season) %>%
+      group_by(name_clean) %>%
+      summarise(injury_seasons = n()),
+    by = "name_clean"
+  ) %>%
+  mutate(
+    injury_seasons = replace_na(injury_seasons, 0),
+    career_length = replace_na(career_length, 0)
+  ) %>%
+  filter(position_grouped %in% c("QB", "RB", "WR", "TE", "K", "DEF")) %>%
+  group_by(position_grouped) %>%
+  summarise(
+    avg_career_length = mean(career_length),
+    avg_injury_seasons = mean(injury_seasons),
+    total_players = n()
+  )
+
+ggplot(position_summary, aes(x = avg_injury_seasons, y = avg_career_length, size = total_players, color = position_grouped)) +
+  geom_point(alpha = 0.8) +
+  scale_size_continuous(range = c(5, 15)) +
+  labs(
+    title = "Avg Injuries vs Career Length by Position",
+    x = "Avg Injury Seasons per Player",
+    y = "Avg Career Length (Years)",
+    color = "Position",
+    size = "Total Players"
+  ) +
+  theme_minimal()
 
 ## Slide With Plot 3
 
